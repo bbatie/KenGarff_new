@@ -1,0 +1,385 @@
+<ion-view>
+  <ion-nav-title>{{mainTitle}}</ion-nav-title>
+  <div class="bar bar-subheader">
+    <h3 class="title" style="color: green;text-align: left">OTD: {{otdPrice.totalOTD | currency}} Mo: {{  otdPrice.mothlyPayment | currency}}</h3>
+
+      <button class="button button-balanced" ng-click="showLease()" ng-if="true">Get Lease</button>
+
+  </div>
+
+
+  <ion-content padding="true" class="has-header has-subheader">
+    <span style="text-align: center"> This is an estimation only and may not be 100% accurate</span>
+
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+      Car Info
+      <a
+        on-touch="otdPrice.carInfo =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      <input type="text" placeholder="Year Make Model" ng-model="otdPrice.carInfo" size="100" ng-change="">
+
+    </label>
+    <ion-list>
+
+      <div class="row">
+        <div class="col"> <ion-radio ng-model="otdPrice.choice" ng-value="'new'" ng-click="setChoice()">New Car</ion-radio> </div>
+        <div class="col">  <ion-radio ng-model="otdPrice.choice" ng-value="'used'" ng-click="setChoice()">Used Car</ion-radio> </div>
+      </div>
+
+
+    </ion-list>
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+      Stock Number
+      <a
+        on-touch="otdPrice.stockNumber =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      <input type="text" placeholder="3h17123" ng-model="otdPrice.stockNumber" size="100" ng-change="getOtd()">
+
+    </label>
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+     Car Year
+      <a
+        on-touch="otdPrice.carYear =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      <input type="number" placeholder="2017" ng-model="otdPrice.carYear" size="100" ng-change="getOtd()">
+
+    </label>
+
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+      Car Price
+      <a ng-if="search.string != ''"
+         on-touch="otdPrice.carPrice =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      <input type="number" placeholder="Car Price" ng-model="otdPrice.carPrice" size="100"  ng-change="getOtd()" min="0">
+    </label>
+
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+      Trade In
+      <a
+        on-touch="otdPrice.tradeIn =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      <input type="number" placeholder="Trade In" ng-model="otdPrice.tradeIn" size="100" ng-change="getOtd()" min="0">
+
+    </label>
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+      Payoff
+      <a
+        on-touch="otdPrice.payOff =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      <input type="number" placeholder="Pay Off" ng-model="otdPrice.payOff" size="100"  ng-change="getOtd()" min="0">
+    </label>
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+
+      Down
+      <a
+        on-touch="otdPrice.downPayment =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      <input type="number" placeholder="Down Payment" ng-model="otdPrice.downPayment" size="100" ng-change="getOtd()" min="0">
+
+    </label>
+
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+
+      Tax Rate
+      <a
+        on-touch="otdPrice.downPayment =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      <input type="number" placeholder="Tax  Rate" ng-model="otdPrice.taxRate" size="100" ng-change="getOtd()">
+
+    </label>
+   <!-- Fees: {{otdPrice.totalFees}}-->
+    <button class="button button-block button-balanced" ng-click="getOtd()">
+      Update Price
+    </button>
+    <div class="item item-divider">
+      Add Products
+    </div>
+    <button class="button button-block button-calm" ng-click="showPrices()">Adjust Product Prices</button>
+    <li class="item item-checkbox">
+      <label class="checkbox">
+        <!-- this is the checkbox element, you will see it is bound to the done setting in the items array -->
+        <!-- When clicked it calls the update function to update the item to its done status -->
+        <input type="checkbox" ng-model="checkboxModel.value1" ng-change="getOtd()"
+               ng-true-value="1"
+               ng-false-value="0">
+      </label>
+      <span>Extended Warranty </span>
+      <span class="item-note">${{otdPrice.extWarrany}}</span>
+
+      <!-- this is a span tag that shows the item text, I am using ng-bind, instead of the span tag we could have used {{x.todoText}} as well -->
+    </li>
+
+    <li class="item item-checkbox">
+      <label class="checkbox">
+        <!-- this is the checkbox element, you will see it is bound to the done setting in the items array -->
+        <!-- When clicked it calls the update function to update the item to its done status -->
+        <input type="checkbox" ng-model="checkboxModel.value2" ng-change="getOtd()"
+               ng-true-value="1"
+               ng-false-value="0">
+      </label>
+      <span>Vehicle Maintenance</span>
+      <span class="item-note">${{otdPrice.vechileMaint}}</span>
+      <!-- this is a span tag that shows the item text, I am using ng-bind, instead of the span tag we could have used {{x.todoText}} as well -->
+    </li>
+
+    <li class="item item-checkbox">
+      <label class="checkbox">
+        <!-- this is the checkbox element, you will see it is bound to the done setting in the items array -->
+        <!-- When clicked it calls the update function to update the item to its done status -->
+        <input type="checkbox" ng-model="checkboxModel.value3" ng-change="getOtd()"
+               ng-true-value="1"
+               ng-false-value="0">
+      </label>
+      <span>Perma Plate</span>
+      <span class="item-note">${{otdPrice.permaPlate}}</span>
+      <!-- this is a span tag that shows the item text, I am using ng-bind, instead of the span tag we could have used {{x.todoText}} as well -->
+    </li>
+
+    <li class="item item-checkbox">
+      <label class="checkbox">
+        <!-- this is the checkbox element, you will see it is bound to the done setting in the items array -->
+        <!-- When clicked it calls the update function to update the item to its done status -->
+        <input type="checkbox" ng-model="checkboxModel.value4" ng-change="getOtd()"
+               ng-true-value="1"
+               ng-false-value="0">
+      </label>
+      <span>Titanium</span>
+      <span class="item-note">${{otdPrice.titanium}}</span>
+      <!-- this is a span tag that shows the item text, I am using ng-bind, instead of the span tag we could have used {{x.todoText}} as well -->
+    </li>
+
+    <li class="item item-checkbox">
+      <label class="checkbox">
+        <!-- this is the checkbox element, you will see it is bound to the done setting in the items array -->
+        <!-- When clicked it calls the update function to update the item to its done status -->
+        <input type="checkbox" ng-model="checkboxModel.value5" ng-change="getOtd()"
+               ng-true-value="1"
+               ng-false-value="0">
+      </label>
+      <span>Clear Shield</span>
+      <span class="item-note">${{otdPrice.clearShield}}</span>
+      <!-- this is a span tag that shows the item text, I am using ng-bind, instead of the span tag we could have used {{x.todoText}} as well -->
+    </li>
+
+    <li class="item item-checkbox">
+      <label class="checkbox">
+        <!-- this is the checkbox element, you will see it is bound to the done setting in the items array -->
+        <!-- When clicked it calls the update function to update the item to its done status -->
+        <input type="checkbox" ng-model="checkboxModel.value6" ng-change="getOtd()"
+               ng-true-value="1"
+               ng-false-value="0">
+      </label>
+      <span>GAP Protection</span>
+      <span class="item-note">${{otdPrice.gapProtect}}</span>
+      <!-- this is a span tag that shows the item text, I am using ng-bind, instead of the span tag we could have used {{x.todoText}} as well -->
+    </li>
+
+    <li class="item item-checkbox">
+      <label class="checkbox">
+        <!-- this is the checkbox element, you will see it is bound to the done setting in the items array -->
+        <!-- When clicked it calls the update function to update the item to its done status -->
+        <input type="checkbox" ng-model="checkboxModel.value7" ng-change="getOtd()"
+               ng-true-value="1"
+               ng-false-value="0">
+      </label>
+      <span>Window Tint</span>
+      <span class="item-note">${{otdPrice.tinting}}</span>
+      <!-- this is a span tag that shows the item text, I am using ng-bind, instead of the span tag we could have used {{x.todoText}} as well -->
+    </li>
+
+    <li class="item item-checkbox">
+      <label class="checkbox">
+        <input type="checkbox" ng-model="checkboxModel.value8" ng-change="getOtd()"
+               ng-true-value="1"
+               ng-false-value="0">
+      </label>
+      <span>Accessories</span>
+      <span class="item-note">${{otdPrice.accessories}}</span>
+
+    </li>
+
+    <!-- the remove button will call the remove function and remoave all items that are marked done -->
+    <span style="text-align: center"> Estimation Includes Tax and Fees</span>
+
+<div style="text-align: center">
+  <h3 style="text-align: center;color: green">
+    {{otdPrice.totalOTD | currency}}
+  </h3>
+  <span style="color: indianred">Taxes: {{otdPrice.myTaxes | currency}} @ {{otdPrice.taxRate}}%</span>
+</div>
+    <h4 style="text-align: center"> Monthly Payment Estimate</h4>
+
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+      <input type="number" placeholder="Term Moths" ng-model="otdPrice.term" size="100" ng-true-value ng-change="getMonthlyPayment()">
+      <a ng-if="otdPrice.term != ''"
+         on-touch="otdPrice.term =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      Term {{otdPrice.term}}
+    </label>
+    <label class="item item-input-inset">
+      <!-- The actual input tag which is bound to the todoInput using ng-model -->
+      <input type="number" placeholder="Interest" ng-model="otdPrice.interest" size="100" ng-true-value ng-change="getMonthlyPayment()">
+      <a ng-if="otdPrice.interest != ''"
+         on-touch="otdPrice.interest =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      Interest {{otdPrice.interest}}
+    </label>
+
+    <h3>{{  otdPrice.mothlyPayment | currency}} </h3>
+    <span> Total Payback: {{otdPrice.mothlyPayment * otdPrice.term | currency}} </span>
+
+    <button class="button button-block button-dark" ng-click="getMonthlyPayment();">Calculate Payment</button>
+
+
+    <button class="button button-block button-balanced" ng-click="printOTD()" ng-if="true">
+      Print
+    </button>
+  </ion-content>
+</ion-view>
+
+<script id="my-prices.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">Edit Prices</h1>
+      <!--    <button class="button button-primary" ng-click="modal.hide()">Close</button>-->
+      <button class="button icon ion-ios-close button-dark" ng-click="hidePrices()">Close</button>
+    </ion-header-bar>
+    <ion-content>
+      <ion-list>
+        <label class="item item-input-inset">
+          <!-- The actual input tag which is bound to the todoInput using ng-model -->
+          $<input type="number" placeholder="Warranty Price" ng-model="otdPrice.extWarrany" size="100" ng-true-value>
+             Warranty
+        </label>
+
+        <label class="item item-input-inset">
+          <!-- The actual input tag which is bound to the todoInput using ng-model -->
+          $<input type="number" placeholder="Maintenance" ng-model="otdPrice.vechileMaint" size="100" ng-true-value>
+          Maintenance
+        </label>
+        <label class="item item-input-inset">
+          <!-- The actual input tag which is bound to the todoInput using ng-model -->
+          $<input type="number" placeholder="Perma Plate" ng-model="otdPrice.permaPlate" size="100" ng-true-value>
+          Perma Plate
+        </label>
+        <label class="item item-input-inset">
+          <!-- The actual input tag which is bound to the todoInput using ng-model -->
+          $<input type="number" placeholder="Maintenance" ng-model="otdPrice.titanium" size="100" ng-true-value>
+          Titanium
+        </label>
+        <label class="item item-input-inset">
+          <!-- The actual input tag which is bound to the todoInput using ng-model -->
+          $<input type="number" placeholder="Clear Shield" ng-model="otdPrice.clearShield" size="100" ng-true-value>
+          Clear Shield
+        </label>
+        <label class="item item-input-inset">
+          <!-- The actual input tag which is bound to the todoInput using ng-model -->
+          $<input type="number" placeholder="GAP" ng-model="otdPrice.gapProtect" size="100" ng-true-value>
+          GAP Protection
+        </label>
+        <label class="item item-input-inset">
+          <!-- The actual input tag which is bound to the todoInput using ng-model -->
+          $<input type="number" placeholder="Window Tinting" ng-model="otdPrice.tinting" size="100" ng-true-value>
+          Window Tinting
+        </label>
+        <label class="item item-input-inset">
+          <!-- The actual input tag which is bound to the todoInput using ng-model -->
+          $<input type="number" placeholder="Accessories" ng-model="otdPrice.accessories" size="100" ng-true-value>
+         Accessories
+        </label>
+      </ion-list>
+
+    </ion-content>
+
+  </ion-modal-view>
+</script>
+
+<script id="findLease.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">Get Lease</h1>
+      <!--    <button class="button button-primary" ng-click="modal.hide()">Close</button>-->
+      <button class="button icon ion-ios-close button-dark" ng-click="hideLease()">Close</button>
+    </ion-header-bar>
+    <div class="bar bar-subheader">
+      <h3 class="title" style="color: green;text-align: left">Lease Payment {{leaseInfo.leasePayment | currency}}</h3>
+    </div>
+    <ion-content class="has-subheader">
+    <p>Lease payments may not be 100% accurate and should not be used for final numbers. </p>
+      <label class="item item-input-inset">
+        <!-- The actual input tag which is bound to the todoInput using ng-model -->
+        $<input type="number" placeholder="MSRP" ng-model="leaseInfo.msrp" size="100" ng-true-value ng-change="calcLease()">
+        MSRP
+      </label>
+      <label class="item item-input-inset">
+        <!-- The actual input tag which is bound to the todoInput using ng-model -->
+        $<input type="number" min="0" placeholder="Selling Price" ng-model="leaseInfo.sellPrice" size="100" ng-true-value ng-change="calcLease()">
+        Selling Price
+      </label>
+      <label class="item item-input-inset">
+        <!-- The actual input tag which is bound to the todoInput using ng-model -->
+        $<input type="number" min="0" placeholder="Down Payment" ng-model="leaseInfo.downPayment" size="100" ng-true-value ng-change="calcLease()">
+      Down Payment
+      </label>
+      <label class="item item-input-inset">
+        <!-- The actual input tag which is bound to the todoInput using ng-model -->
+        $<input type="number" min="0" placeholder="Trade In" ng-model="leaseInfo.tradeIn" size="100" ng-true-value ng-change="calcLease()">
+        Trade In
+      </label>
+      <label class="item item-input-inset">
+        <!-- The actual input tag which is bound to the todoInput using ng-model -->
+        $<input type="number" min="0" placeholder="Trade In Payoff" ng-model="leaseInfo.payOff" size="100" ng-true-value ng-change="calcLease()">
+        Trade In Payoff
+      </label>
+      <label class="item item-input-inset">
+        <!-- The actual input tag which is bound to the todoInput using ng-model -->
+        <input type="number" min="0" placeholder="Money Factor" ng-model="leaseInfo.moneyFactor" size="100" ng-true-value ng-change="calcLease()">
+        Money Factor
+      </label>
+
+      <label class="item item-input-inset">
+        <!-- The actual input tag which is bound to the todoInput using ng-model -->
+        %<input type="number" min="0" placeholder="Residual" ng-model="leaseInfo.residual" size="100" ng-true-value ng-change="calcLease()">
+        Residual
+      </label>
+      <label class="item item-input-inset">
+        <!-- The actual input tag which is bound to the todoInput using ng-model -->
+        %<input type="number" min="0" placeholder="Tax Rate" ng-model="leaseInfo.taxRate" size="100" ng-true-value ng-change="calcLease()">
+        Tax Rate
+      </label>
+  <div ng-show="true">Residual: {{leaseInfo.endBuyout | currency}} </div>
+      <div ng-show="true">Net Cap: {{leaseInfo.netCap | currency}} </div>
+      <div ng-show="true">Gross Cap: {{leaseInfo.grossCap | currency}} </div>
+      <div ng-show="true">Dep Value: {{leaseInfo.depValue | currency}} </div>
+      <div ng-show="true">Finance: {{leaseInfo.myFinance | currency}}</div>
+      <div ng-show="true">Sales Tax: {{leaseInfo.salesTax | currency}} </div>
+      <div> Payment: {{leaseInfo.leasePayment | currency}}</div>
+      <div class="row">
+        <div class="col col-33">Residual</div> <div class="col">{{leaseInfo.endBuyout | currency}}</div>
+      </div>
+      <div class="row">
+        <div class="col col-33">Payment</div> <div class="col">{{leaseInfo.leasePayment | currency}}</div>
+      </div>
+      <button class="button button-calm button-block" ng-click="calcLease()">Calculate Payment</button>
+    </ion-content>
+  </ion-modal-view>
+</script>

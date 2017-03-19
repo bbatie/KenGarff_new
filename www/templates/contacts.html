@@ -1,0 +1,31 @@
+<ion-view title="Contacts" id="page5">
+  <ion-nav-buttons side="right" class="has-header">
+    <button class="button button-icon icon ion-close-circled"  ng-click="remove()"></button>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+    <form id="toDo-form5" class="list">
+      <label class="item item-input item-stacked-label" id="toDo-input9">
+        <span class="input-label">Add New Item</span>
+        <input type="text" placeholder="add text here" ng-model="todoInput.data">
+      </label>
+      <button id="toDo-button24" class="button button-positive  button-block" ng-click="contactAdd()">Add Contact</button>
+    </form>
+
+    <div class="list card" id="toDo-card25">
+      <ion-item class="balanced" id="toDo-list-item31">Contacts</ion-item>
+      <form id="toDo-form6" class="list" ng-repeat="x in contacts">
+        <li class="item item-checkbox">
+        <label class="checkbox">
+
+          <!-- this is the checkbox element, you will see it is bound to the done setting in the items array -->
+          <!-- When clicked it calls the update function to update the item to its done status -->
+          <input type="checkbox" ng-model="x.done" ng-click="update()">
+        </label>
+
+        <!-- this is a span tag that shows the item text, I am using ng-bind, instead of the span tag we could have used {{x.todoText}} as well -->
+        <span class="item-text-wrap">{{x.name.givenName}} </span>
+      </li>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>

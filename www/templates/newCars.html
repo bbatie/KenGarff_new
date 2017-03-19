@@ -1,0 +1,65 @@
+<ion-view title="New Cars" id="pageUsed">
+  <ion-nav-title>New Cars</ion-nav-title>
+  <ion-nav-buttons side="right">
+ <!-- <button class="button button-calm" ng-click="sortBy('Vehicle')">
+     By Year
+    </button>-->
+    <!--     <button class="button button-calm" ng-click="sortBy('Price')">
+         Price
+       </button>
+       <button class="button button-calm" ng-click="sortBy('Odometer')">
+         Miles
+       </button>-->
+  </ion-nav-buttons>
+  <div class="bar bar-subheader">
+    <label class="item item-input" style="width: 100%">
+      <input type="text" placeholder="Search" ng-model="search.string">
+      <a ng-if="search.string != ''"
+         on-touch="search.string=''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+
+    </label>
+
+  </div>
+
+  <ion-content padding="true" class="has-header has-subheader">
+    <div class="button-bar">
+      <a class="button" ng-click="sortBy('carYear')">Year</a>
+      <a class="button" ng-click="sortBy('Price')">Price</a>
+     <!-- <a class="button" ng-click="sortBy('Odometer')">Miles</a>-->
+    </div>
+    <div ng-repeat="car in newCars | filter:search.string | orderBy:orderType" >
+
+        <div class="item item-divider item-text-wrap" ng-hide="car.Vehicle.length < 4 || car.VIN === 'undefined'">
+          {{car.Vehicle}} <br><span style="color: green;"> {{car.Price | currency}} </span>
+        </div>
+
+      <div class="row">
+        <div class="col">Miles</div>
+        <div class="col">{{car.Odometer}}</div>
+      </div>
+      <div class="row">
+        <div class="col">Color</div>
+        <div class="col"> {{car.Color}}</div>
+      </div>
+
+      <div class="row">
+        <div class="col">VIN</div>
+        <div class="col">{{car.VIN}}</div>
+      </div>
+      <div class="row">
+        <div class="col">Stock#</div>
+        <div class="col">{{car['Stock #']}}</div>
+      </div>
+
+
+      <div class="button-bar">
+      <button class="button button-calm button-block" ng-click="searchNew(car.VIN)">View On WebSite</button>
+        <button class="button button-calm button-block" ng-click="getPricing(car.Vehicle, car.Price,car['Stock #'], 'new')" ng-if="car.Price > 1">Get Pricing</button>
+      </div>
+    </div>
+
+
+  </ion-content>
+</ion-view>

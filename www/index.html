@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src gap://ready file://* *; script-src * 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *">-->
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src gap://ready gap: file://* * 'unsafe-inline' 'unsafe-eval' firebase.com/*;
+    style-src * 'unsafe-inline' 'unsafe-eval';
+    script-src * 'unsafe-inline' 'unsafe-eval';
+    media-src *; img-src * data:;
+" />
+    <title></title>
+
+
+
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="lib/ng-prettyjson/dist/ng-prettyjson.min.css">
+    <script type="text/javascript" src="lib/ng-prettyjson/dist/ng-prettyjson.min.js"></script>
+
+    <script src="lib/ion-datetime-picker/release/ion-datetime-picker.min.js"></script>
+    <link href="lib/ion-datetime-picker/release/ion-datetime-picker.min.css" rel="stylesheet">
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.6.3/firebase.js"></script>
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
+
+    <script src="lib/angular-csv-import/dist/angular-csv-import.js"></script>
+
+    <script src="lib/angular-pdf/dist/angular-pdf.js"></script>
+
+    <script src="js/papaparse.js"></script>
+
+
+   <script type="text/javascript" charset="utf-8" src="js/b4hvinscanner.js"></script>
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+  <!--  <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+-->
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+
+
+    <script>
+
+
+
+
+
+
+     /* function googleApiClientReady() {
+
+        var apiKey = 'AIzaSyD_4RNZZX8pFpnU4NVUnmX-cE14TxZNq-g';
+
+        gapi.client.setApiKey(apiKey);
+        gapi.client.load('youtube', 'v3', function() {
+
+          request = gapi.client.youtube.search.list({
+            part: 'snippet',
+            channelId: 'UC22zQ9nBEk6KOjUWqR5XXZg',//UCqhNRDQE_fqBDBwsvmT8cTg',
+            order: 'date',
+            type: 'video'
+
+          });
+
+          request.execute(function(response) {
+           alert(JSON.stringify(response,null,' '));
+
+          });
+        });
+
+      }*/
+
+    </script>
+
+
+    <style type="text/css">
+      .platform-ios .manual-ios-statusbar-padding{
+        padding-top:20px;
+      }
+      .manual-remove-top-padding{
+        padding-top:0px;
+      }
+      .manual-remove-top-padding .scroll{
+        padding-top:0px !important;
+      }
+      ion-list.manual-list-fullwidth div.list, .list.card.manual-card-fullwidth {
+        margin-left:-10px;
+        margin-right:-10px;
+      }
+      ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidth > .item {
+        border-radius:0px;
+        border-left:0px;
+        border-right: 0px;
+      }
+
+      .iscomplete {
+        text-decoration: line-through;
+        color: red;
+      }
+
+      .col{
+        background: lightgray;
+        text-align: center;
+        border: thin solid black;
+      }
+      .myCustom{
+        background: lightblue;
+      }
+      .myCustom1{
+        background: darkslategray;}
+
+      @media only screen and (orientation: landscape) {
+        .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
+          height: 44px;
+        }
+        .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
+          margin-top: 19px !important;
+        }
+        .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
+          margin-top: 0px;
+        }
+        .platform-ios.platform-cordova:not(.fullscreen) .tabs-top > .tabs,
+        .platform-ios.platform-cordova:not(.fullscreen) .tabs.tabs-top {
+          top: 44px;
+        }
+        .platform-ios.platform-cordova:not(.fullscreen) .has-header,
+        .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
+          top: 44px;
+        }
+        .platform-ios.platform-cordova:not(.fullscreen) .has-subheader {
+          top: 88px;
+        }
+        .platform-ios.platform-cordova:not(.fullscreen) .has-header.has-tabs-top {
+          top: 93px;
+        }
+        .platform-ios.platform-cordova:not(.fullscreen) .has-header.has-subheader.has-tabs-top {
+          top: 137px;
+        }
+      }
+
+      .transparent {
+        background: transparent !important;
+      }
+      .image-modal {
+        width: 100% !important;
+        height: 100%;
+        top: 0 !important;
+        left: 0 !important;
+      }
+      .fullscreen-image {
+        max-width: 100%;
+        max-height: 100%;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        overflow: auto;
+        position: fixed;
+        right: 0;
+        top: 0;
+      }
+
+      /* Fix modal backdrop for smaller devices */
+      @media (max-width: 679px) {
+        .active .modal-backdrop-bg {
+          opacity: .5;
+        }
+        .modal-backdrop-bg {
+          -webkit-transition: opacity 300ms ease-in-out;
+          transition: opacity 300ms ease-in-out;
+          background-color: #000;
+          opacity: 0;
+        }
+      }
+
+    </style>
+
+    <script src="js/app.js"></script>
+
+    <script src="js/controllers.js"></script>
+    <script src="js/routes.js"></script>
+
+
+    <script src="js/directives.js"></script>
+
+    <script src="js/services.js"></script>
+
+
+    <!-- Only required for Tab projects w/ pages in multiple tabs
+    <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
+    -->
+
+
+
+  </head>
+  <body ng-app="app" animation="slide-left-right-ios7">
+  <div>
+  <ion-side-menus enable-menu-with-back-views="false" data-componentid="side-menu21">
+    <ion-side-menu-content>
+      <ion-nav-bar class="bar-stable">
+        <ion-nav-back-button></ion-nav-back-button>
+        <ion-nav-buttons side="left">
+          <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+        </ion-nav-buttons>
+      </ion-nav-bar>
+      <ion-nav-view></ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="left" id="side-menu21">
+      <ion-header-bar class="bar-stable">
+        <div class="title">Menu</div>
+      </ion-header-bar>
+      <ion-content ng-controller="menuCtrl" padding="false" class="side-menu-left has-header ">
+        <div class="item item-body" id="menu-list-item-container1" data-componentid="list-item-container1">
+          <ion-list id="menu-list1" data-componentid="list1">
+
+
+
+            <ion-item class="item-icon-left" id="menu-list-item17a" ui-sref="tabsController.scanner" menu-close="" data-componentid="list-item17">
+              <i class="icon ion-home"></i>Home</ion-item>
+
+            <ion-item class="item-icon-left" id="menu-list-item25" menu-close="" data-componentid="list-item24" ng-click="openDeliveries()">
+              <i class="icon ion-happy-outline"></i>Customer Deliveries</ion-item>
+
+
+            <ion-item class="item-icon-left" id="menu-list-item23a" ng-show="true" ng-click="cameraStart()" menu-close="" data-componentid="list-item23">
+              <i class="icon ion-camera"></i>Camera</ion-item>
+
+
+            <ion-item class="item-icon-left" id="menu-list-item26" ui-sref="lotTech" menu-close="" data-componentid="list-item23">
+              <i class="icon ion-document-text"></i>Lot Tech</ion-item>
+
+            <ion-item class="item-icon-left" id="menu-list-item19" ui-sref="tabsController.models" menu-close="" data-componentid="list-item19">
+              <i class="icon ion-ios-people-outline"></i>Schedule</ion-item>
+
+            <ion-item class="item-icon-left" id="menu-list-item17" ui-sref="tabsController.scanner" menu-close="" data-componentid="list-item17">
+              <i class="icon ion-ios-barcode"></i>Scanner</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item18" ui-sref="tabsController.oTD" menu-close="" data-componentid="list-item18">
+              <i class="icon ion-social-usd"></i>OTD</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item26a" ui-sref="usedCars" menu-close="" data-componentid="list-item23a">
+              <i class="icon ion-model-s"></i>Used Cars</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item26a1" ui-sref="newCars" menu-close="" data-componentid="list-item23a1">
+              <i class="icon ion-model-s"></i>New Cars</ion-item>
+
+
+
+
+            <ion-item class="item-icon-left" id="menu-list-item20" data-componentid="list-item20" ng-click="searchUsed10K()">
+              <i class="icon ion-model-s"></i>Used Under 10K</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item21" data-componentid="list-item21" ng-click="searchUsed1020K()">
+              <i class="icon ion-model-s"></i>Used 10-20K</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item22" data-componentid="list-item22" ng-click="searchUsedLowestFirst()">
+              <i class="icon ion-model-s"></i>Used Lowest First</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item22a" data-componentid="list-item22" menu-close="" ng-click="kbbICO()">
+              <i class="icon ion-social-usd-outline"></i>KBB ICO</ion-item>
+
+            <ion-item class="item-icon-left" id="menu-list-item23" ui-sref="toDo" menu-close="" data-componentid="list-item23">
+              <i class="icon ion-document-text"></i>ToDo</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item24" ui-sref="staffListing" menu-close="" data-componentid="list-item24">
+              <i class="icon ion-ios-people"></i>Staff Listing</ion-item>
+
+<!--
+            <ion-item class="item-icon-left" id="menu-list-item23a" ui-sref="contacts" menu-close="" data-componentid="list-item23">
+              <i class="icon ion-document-text"></i>Contacts</ion-item>
+-->
+
+
+            <div class="item item-divider">
+              Honda Info
+            </div>
+            <ion-item class="item-icon-left" id="menu-list-item19q" menu-close="" data-componentid="list-item19" ng-click="hondaModels()">
+              <i class="icon ion-android-car"></i>Models</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item19ab" ng-click="hondaSurvey()" menu-close="" data-componentid="list-item19">
+              <i class="icon ion-ios-checkmark-outline"></i>Survey Checklist</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item19aa" ng-click="techTutor()" menu-close="" data-componentid="list-item19">
+              <i class="icon ion-android-car"></i>Honda Tech Tutor</ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item19a" ng-click="mobileAssist()" menu-close="" data-componentid="list-item19">
+              <i class="icon ion-android-car"></i>Mobile Assistant </ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item19sa" ng-click="hondaOwners()" menu-close="" data-componentid="list-item19">
+              <i class="icon ion-android-car"></i>Owners.Honda.Com </ion-item>
+            <ion-item class="item-icon-left" id="menu-list-item19ac" ng-click="hondaFrontline()" menu-close="" data-componentid="list-item19">
+              <i class="icon ion-ios-book-outline"></i>Honda Frontline</ion-item>
+            <div class="item item-divider">
+              Tools
+            </div>
+            <ion-item class="item-icon-left" id="menu-list-item19bsa" ng-click="flashlight()" data-componentid="list-item19">
+              <i class="icon ion-ios-lightbulb"></i>Flashlight</ion-item>
+
+            <ion-item class="item-icon-left" id="menu-list-item19ba" ng-click="checkUpdate()" menu-close="" data-componentid="list-item19">
+              <i class="icon ion-information-circled"></i>About </ion-item>
+
+
+          </ion-list>
+        </div>
+      </ion-content>
+    </ion-side-menu>
+  </ion-side-menus>
+</div>
+  </body>
+
+
+
+  <script id="my-modal.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title">Honda Survey Checklist</h1>
+    <!--    <button class="button button-primary" ng-click="modal.hide()">Close</button>-->
+        <button class="button icon ion-ios-close button-dark" ng-click="modal.hide()">Close</button>
+      </ion-header-bar>
+      <ion-content>
+        <ion-list>
+
+          <ion-checkbox class="item-text-wrap">The dealership staff worked with me to make the purchase as timely and efficient as possible</ion-checkbox>
+          <ion-checkbox class="item-text-wrap">I would recommend KEN GARFF RIVERDALE to my family and friends</ion-checkbox>
+          <ion-checkbox class="item-text-wrap">The dealership facility was clean and comfortable</ion-checkbox>
+          <ion-checkbox class="item-text-wrap">I felt the Sales Consultant understood my needs</ion-checkbox>
+          <ion-checkbox class="item-text-wrap">The Sales Consultant was knowledgeable about the vehicle</ion-checkbox>
+          <ion-checkbox class="item-text-wrap">The Business Manager completed al the necessary documents in a thorough and efficient manner</ion-checkbox>
+          <ion-checkbox class="item-text-wrap">The interior of the vehicle was in excellent condition when delivered</ion-checkbox>
+          <ion-checkbox class="item-text-wrap">The exterior of the vehicle was free of any dents, dings, scratches when delivered</ion-checkbox>
+          <ion-checkbox class="item-text-wrap">The vehicle was free of mechanical issues</ion-checkbox>
+          <ion-checkbox class="item-text-wrap">I received a thorough explanation of vehicle features and technology by someone at the dealership</ion-checkbox>
+          <ion-checkbox class="item-text-wrap"><b>Pairing of my compatible phone(s) using Blue-tooth HandsFreeLink</b></ion-checkbox>
+          <ion-checkbox class="item-text-wrap"><b>Setting of radio presets</b></ion-checkbox>
+          <ion-checkbox class="item-text-wrap"><b>Use of Audio controls</b></ion-checkbox>
+          <ion-checkbox class="item-text-wrap"><b>Door lock settings</b></ion-checkbox>
+          <ion-checkbox class="item-text-wrap">Is there anything you would like to recommend that the dealership do differently to improve the vehicle purchase experience?</ion-checkbox>
+        </ion-list>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+
+  <script id="my-frontline.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title">Honda Frontline</h1>
+        <!--    <button class="button button-primary" ng-click="modal.hide()">Close</button>-->
+        <button class="button icon ion-ios-close button-dark" ng-click="modalMag.hide()">Close</button>
+      </ion-header-bar>
+      <ion-content>
+        <ion-list>
+
+          <ion-item ng-repeat="mag in magList" ng-click="openPDF(mag.link)">
+            {{mag.issue}}
+          </ion-item>
+          <pdf-viewer    delegate-handle="my-pdf-container"    url="https://salestraining.honda.com/pdfs/honda/frontline/2016-dec-frontline.pdf" scale="1"    show-toolbar="true"    ></pdf-viewer>
+
+        </ion-list>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+
+  <script id="my-models.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title">Honda Models</h1>
+        <!--    <button class="button button-primary" ng-click="modal.hide()">Close</button>-->
+        <button class="button icon ion-ios-close button-dark" ng-click="modalModels.hide()">Close</button>
+      </ion-header-bar>
+      <div class="bar bar-subheader">
+        <label class="item item-input" style="width: 100%">
+          <input type="text" placeholder="Search" ng-model="search.string">
+          <a ng-if="search.string != ''"
+             on-touch="search.string=''">
+            <i class="icon ion-ios-close placeholder-icon"></i>
+          </a>
+        </label>
+      </div>
+
+      <ion-content padding="true" class="has-header has-subheader">
+        <!--    <div class="list card" ng-repeat="cars in allHondas">
+              <ion-item class="item-divider" id="models-list-item-divider1"> {{cars.name}}</ion-item>
+                  <div ng-repeat="year in cars.years">
+                    <p><b>{{year.year}}</b></p>
+                    <ion-item ng-repeat="style in year.styles">{{style.name}}</ion-item>
+                  </div>
+
+            </div>-->
+
+        <div ng-repeat="cars in allHondas | filter:search.string">
+
+
+          <ion-item class="item item-icon-left item-divider" ng-click="searchSite(null,cars.name)">
+            <i class="icon ion-model-s" ></i>
+            <h2>{{cars.name}}</h2>
+            <p>Click to search all {{cars.name}}s</p>
+          </ion-item>
+
+          <ion-item class="item-accordion item-icon-left"  ng-repeat="year in cars.years | orderBy: 'year' :  true"
+                    ng-show="year.year == '2017' || year.year == '2016'">
+
+            <i class="icon ion-ios-plus" ng-click="toggleGroup(year)"></i>
+            <ion-item class="item item-divider">{{year.year}}</ion-item>
+            <div ng-show="isGroupShown(year)">
+              <ion-item  ng-repeat="style in year.styles | orderBy:'name' : true" >
+                <ion-item class="item-text-wrap" ng-click="searchSite(year.year, year.year + ' Honda ' + cars.name + ' ' + style.trim + ' ' + style.submodel.body)">{{style.trim}} {{style.submodel.body}}
+                  <p class=" item-text-wrap">{{style.name}}</p>
+                </ion-item>
+
+              </ion-item>
+            </div>
+          </ion-item>
+
+        </div>
+
+      </ion-content>
+    </ion-modal-view>
+  </script>
+
+
+  <script id="camera-view.html" type="text/ng-template">
+    <ion-modal-view style="background-color: transparent">
+      <ion-header-bar>
+        <h1 class="title">camera</h1>
+        <!--    <button class="button button-primary" ng-click="modal.hide()">Close</button>-->
+        <button class="button icon ion-ios-close button-dark" ng-click="modal.hide()">Close</button>
+      </ion-header-bar>
+      <ion-content>
+
+      </ion-content>
+    </ion-modal-view>
+  </script>
+
+
+
+</html>

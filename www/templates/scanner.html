@@ -1,0 +1,157 @@
+<ion-view id="page2">
+  <ion-nav-title>Scanner & Search</ion-nav-title>
+  <ion-nav-buttons side="right">
+    <button class="button button-calm" ng-click="scanCode()">
+      SCAN
+    </button>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header" overflow-scroll="false">
+
+
+    <div class="row" ng-show="false">
+      <div class="row"  >
+        <div class="col"><img src="{{logoImage}}" style="width: 100%"> <br>  <p ng-bind-html="username"></p></div>
+        <div class="col col-75"><img src="{{backImage}}" style="width: 100%"></div>
+      </div>
+    </div>
+
+      <div class="list">
+        <a class="item item-thumbnail-left item-text-wrap" ng-click="openImageModal()">
+          <img src="{{backImage}}">
+          <h2 ng-bind-html="username"></h2>
+          <p>Latest Customer Delivery</p>
+        </a>
+      </div>
+
+    <div class="button-bar">
+      <button id="scanner-button1vin" class="button button-positive  button-block" ng-click="fireOverlay()" ng-show="false">CamerOverlay </button>
+      <button id="scanner-button1" class="button button-positive  button-block" ng-click="scanCode()">Scan VIN & QR Code</button>
+    </div>
+
+    <button id="scanner-button11" class="button button-positive  button-block" ng-click="dealerVault()" ng-show="false">DealerVault</button>
+
+
+    <div class="item item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="VIN Number To Check" ng-model="searchCarsParams.vin">
+      </label>
+      <a ng-if="searchCarsParams.vin != ''"
+         on-touch="searchCarsParams.vin =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+      <button class="button button-small" ng-click="getVINInfo(searchCarsParams.vin, true)">
+        Submit
+      </button>
+    </div>
+
+      <label class="item item-input" id="scanner-input3">
+        <span class="input-label">Search New</span>
+        <a ng-if="searchCarsParams.termNEW != ''"
+           on-touch="searchCarsParams.termNEW =''">
+          <i class="icon ion-ios-close placeholder-icon"></i>
+        </a>
+        <input type="text" placeholder="Search New" ng-model="searchCarsParams.termNEW">
+
+      </label>
+      <button id="scanner-button4" class="button button-positive  button-block" ng-click="searchNew(searchCarsParams.termNEW)">Search New</button>
+
+
+    <label class="item item-input" id="scanner-input4">
+        <span class="input-label">Search Used</span>
+      <a ng-if="searchCarsParams.term != ''"
+         on-touch="searchCarsParams.term =''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+        <input type="text" placeholder="Search Used" ng-model="searchCarsParams.term">
+
+      </label>
+    <ul class="list">
+
+      <li class="item item-toggle">
+        Search Around
+        <label class="toggle toggle-assertive">
+          <input type="checkbox" ng-model="searchCarsParams.around">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <button id="scanner-button5" class="button button-positive  button-block" ng-click="searchUsed(searchCarsParams.term)">Search Used</button>
+
+    <div class="item item-divider">
+     Latest VINs:
+    </div>
+
+    <div ng-repeat="car in vinList | orderBy:'-'">
+
+      <div class="card">
+        <div class="item item-divider">
+          {{car.year}} {{car.make}} {{car.model}}
+        </div>
+        <div class="item item-text-wrap">
+          VIN: {{car.vin}}<br>
+          Drive: {{car.drive}}<br>
+          <b>Edmunds Used Guide:</b><br>
+
+          <div class="row">
+            <div class="col" ><b>MSRP</b></div>
+            <div class="col" ><b>Invoice</b></div>
+            <div class="col" ><b>Delivery</b></div>
+          </div>
+          <div class="row">
+
+            <div class="col">${{car.msrp}}</div>
+            <div class="col" >${{car.invoice}}</div>
+            <div class="col" >${{car.deliveryCharges}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col" ><b>Private</b></div>
+            <div class="col" ><b>Retail</b></div>
+            <div class="col" ><b>TradeIn</b></div>
+          </div>
+          <div class="row">
+
+            <div class="col">${{car.private}}</div>
+            <div class="col" >${{car.retail}}</div>
+            <div class="col" >${{car.tradein}}</div>
+          </div>
+          <div class="row">
+            <div class="col" ><b>Doors</b></div>
+            <div class="col"><b>Hwy MPG</b></div>
+            <div class="col" ><b>City MPG</b></div>
+          </div>
+          <div class="row">
+            <div class="col">{{car.doors}}</div>
+            <div class="col">{{car.hiwayMPG}}</div>
+            <div class="col">{{car.cityMPG}}</div>
+          </div>
+        </div>
+        <div class="item item-divider">
+
+          <div class="button-bar">
+            <a class="button icon-left ion-navicon"  ng-click="getVINInfo(car.vin, false)">Menu</a>
+            <a class="button" ng-click="getEdmundsTMV(car.modelID)">TMV</a>
+            <a class="button icon-right ion-close-circled" ng-click="deleteVin(car.vin)">Delete</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+<!--    <h4>Vehicle Data Output</h4>
+    <pre pretty-json="currentVehicle"></pre>-->
+
+    <script id="image-modal.html" type="text/ng-template">
+      <div class="modal image-modal transparent" ng-click="closeImageModal()">
+        <ion-pane class="transparent">
+          <img ng-src="{{backImage}}" class="fullscreen-image"/>
+        </ion-pane>
+      </div>
+    </script>
+
+  </ion-content>
+
+</ion-view>

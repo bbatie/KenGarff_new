@@ -1,0 +1,44 @@
+<ion-view title="ToDo" id="page5">
+  <ion-nav-buttons side="right" class="has-header">
+    <button class="button button-icon icon ion-close-circled"  ng-click="remove()"></button>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+    <form id="toDo-form5" class="list">
+      <label class="item item-input item-stacked-label" id="toDo-input9">
+        <span class="input-label">Add New Item</span>
+        <input type="text" placeholder="add text here" ng-model="todoInput.data">
+      </label>
+
+
+      <ion-list class="">
+
+        <div class="item item-icon-left" ion-datetime-picker ng-model="todoInput.date">
+          <i class="icon ion-alert"></i>
+          Add A Alert: {{todoInput.date | date: "yyyy-MM-dd H:mm:ss"}}
+        </div>
+      </ion-list>
+
+
+      <button id="toDo-button24" class="button button-positive  button-block" ng-click="todoAdd($event)">Add Item</button>
+    </form>
+
+    <div class="list card" id="toDo-card25">
+      <ion-item class="balanced" id="toDo-list-item31">Todos</ion-item>
+      <form id="toDo-form6" class="list" ng-repeat="x in todoList">
+        <li class="item item-checkbox">
+        <label class="checkbox">
+
+          <!-- this is the checkbox element, you will see it is bound to the done setting in the items array -->
+          <!-- When clicked it calls the update function to update the item to its done status -->
+          <input type="checkbox" ng-model="x.done" ng-click="update()">
+        </label>
+
+        <!-- this is a span tag that shows the item text, I am using ng-bind, instead of the span tag we could have used {{x.todoText}} as well -->
+        <span class="item-text-wrap" ng-class="{iscomplete: x.done}">{{x.todoText}} </span>
+          <p ng-show="x.date">{{x.date | date:"MM/dd/yyyy 'at' h:mma"}}</p>
+      </li>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>
+

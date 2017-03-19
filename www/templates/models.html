@@ -1,0 +1,91 @@
+<ion-view title="Schedules" id="page4">
+  <div class="bar bar-subheader">
+    <label class="item item-input" style="width: 100%">
+      <input type="text" placeholder="Search" ng-model="search.string">
+      <a ng-if="search.string != ''"
+         on-touch="search.string=''">
+        <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+    </label>
+
+  </div>
+
+  <ion-content padding="true" class="has-header has-subheader">
+
+<!--    <div class="list card" ng-repeat="cars in allHondas">
+      <ion-item class="item-divider" id="models-list-item-divider1"> {{cars.name}}</ion-item>
+          <div ng-repeat="year in cars.years">
+            <p><b>{{year.year}}</b></p>
+            <ion-item ng-repeat="style in year.styles">{{style.name}}</ion-item>
+          </div>
+
+    </div>-->
+    <!--<div class="list">
+
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Select Team
+        </div>
+        <select ng-model="search.string">
+          <option ng-repeat="team in schedules" >{{team.team}}</option>
+        </select>
+      </label>
+
+    </div>-->
+
+    <div ng-repeat="team in schedules | filter:search.string" >
+
+
+      <div class="list card">
+
+        <div class="item item-avatar myCustom">
+          <img src="{{team.image}}">
+          <h2><b>{{team.team}}</b></h2>
+          <p class="item-text-wrap"><b>Notes:</b> {{team.notes}}</p>
+        </div>
+
+        <div class="item item-body myCustom1">
+          <p>
+            <div class="row">
+              <div class="col"><b>Monday</b><br> {{team.monday}}</div>
+          <div class="col"><b>Tuesday</b><br> {{team.tuesday}}</div>
+          <div class="col"><b>Wednesday</b><br> {{team.wednesday}}</div>
+            </div>
+          <div class="row">
+            <div class="col"><b>Thursday</b><br> {{team.thursday}}</div>
+            <div class="col" ng-show="team.id == 2 && !whichWeek "><b>Friday</b><br> {{team.friday}}</div>
+            <div class="col" ng-show="team.id == 2 && !whichWeek "><b>Saturday</b><br> {{team.saturday}}</div>
+            <div class="col" ng-show="team.id == 2 && whichWeek "><b>Friday</b><br> {{team.friday2}}</div>
+            <div class="col" ng-show="team.id == 2 && whichWeek"><b>Saturday</b><br> {{team.saturday2}}</div>
+
+            <div class="col" ng-show="team.id == 1 && whichWeek "><b>Friday</b><br> {{team.friday}}</div>
+            <div class="col" ng-show="team.id == 1 && whichWeek "><b>Saturday</b><br> {{team.saturday}}</div>
+            <div class="col" ng-show="team.id == 1 && !whichWeek "><b>Friday</b><br> {{team.friday2}}</div>
+            <div class="col" ng-show="team.id == 1 && !whichWeek"><b>Saturday</b><br> {{team.saturday2}}</div>
+
+            <div class="col" ng-show="team.id == 3"><b>Friday</b><br> {{team.friday}}</div>
+            <div class="col" ng-show="team.id == 3"><b>Saturday</b><br> {{team.saturday}}</div>
+
+            <div class="col" ng-show="team.id == 4 && !whichWeek "><b>Friday</b><br> {{team.friday}}</div>
+            <div class="col" ng-show="team.id == 4 && !whichWeek "><b>Saturday</b><br> {{team.saturday}}</div>
+            <div class="col" ng-show="team.id == 4 && whichWeek "><b>Friday</b><br> {{team.friday2}}</div>
+            <div class="col" ng-show="team.id == 4 && whichWeek"><b>Saturday</b><br> {{team.saturday2}}</div>
+
+            <div class="col" ng-show="team.id == 5 && whichWeek "><b>Friday</b><br> {{team.friday}}</div>
+            <div class="col" ng-show="team.id == 5 && whichWeek "><b>Saturday</b><br> {{team.saturday}}</div>
+            <div class="col" ng-show="team.id == 5 && !whichWeek "><b>Friday</b><br> {{team.friday2}}</div>
+            <div class="col" ng-show="team.id == 5 && !whichWeek"><b>Saturday</b><br> {{team.saturday2}}</div>
+
+
+          </div>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+  </ion-content>
+</ion-view>
