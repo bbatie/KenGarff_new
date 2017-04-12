@@ -11,6 +11,9 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="../lib/ngCordova/dist/ng-cordova.js"></script>
+
+    <script src="lib/fabric.js/dist/fabric.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="../cordova.js"></script>
@@ -23,7 +26,7 @@
       // angular.module is a global place for creating, registering and retrieving Angular modules
       // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
       // the 2nd parameter is an array of 'requires'
-      angular.module('ionicApp', ['ionic'])
+      angular.module('ionicApp', ['ionic','ngCordova'])
 
         .run(function($ionicPlatform) {
           $ionicPlatform.ready(function() {
@@ -45,18 +48,18 @@
             }
             if (window.ezar) {
 
-              ezar.initializeVideoOverlay(
+           /*   ezar.initializeVideoOverlay(
                 function() {
                   ezar.getBackCamera().start();
                 },
                 function(err) {
                   alert('unable to init ezar: ' + err);
-                });
+                });*/
             }
           });
         })
 
-        .controller("AppController", function($scope) {
+        .controller("AppController", function($scope,$cordovaCamera ) {
 
 
           $scope.snapshotTimestamp = Date.now();
@@ -64,6 +67,29 @@
           $scope.myOrientation = true;
 
           $scope.snapshot = function() {
+
+            var options = {
+              quality: 50,
+              destinationType: Camera.DestinationType.DATA_URL,
+              sourceType: Camera.PictureSourceType.CAMERA,
+              allowEdit: true,
+              encodingType: Camera.EncodingType.JPEG,
+              popoverOptions: CameraPopoverOptions,
+              saveToPhotoAlbum: false,
+              correctOrientation:true
+            };
+
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+              var image = document.getElementById('myImage');
+              image.src = "data:image/jpeg;base64," + imageData;
+              $scope.myImage = image.src;
+            }, function(err) {
+              // error
+            });
+
+
+            return;
+
             StatusBar.hide();
             //ignore ghost clicks, wait 1.5 sec between invocations
             if (Date.now() - $scope.snapshotTimestamp < 1500) return;
@@ -185,7 +211,7 @@
 
         </div>
 
-        <ion-slides  options="options" slider="data.slider"  ng-if="!myOrientation">
+        <ion-slides  options="options" slider="data.slider" [pager]="false" ng-if="!myOrientation">
           <ion-slide-page>
             <div class="box blue"><img src="../img/kengarffhondaogden.png" style="width: 50%; height: auto;"></div>
           </ion-slide-page>
@@ -200,25 +226,23 @@
             <div class="box 1"><img src="http://cliparting.com/wp-content/uploads/2016/07/Congratulations-clipart-images-clipart-clipartix.png" style="width: 100%; height: auto;"></div>
           </ion-slide-page>
           <ion-slide-page>
-            <div class="box 1a"><img src="../img/Honda.png" style="width: 100%; height: auto;"></div>
+            <div class="box 1a"><img src="../img/Honda.png" style="width: 100%; height: auto;object-fit: fill;"></div>
           </ion-slide-page>
           <ion-slide-page>
-            <div class="box 2"><img src="../img/overlay_234.png" style="width: 100%; height: auto;"></div>
+            <div class="box 2"><img src="../img/overlay_234.png" style="width: 100%; height: 100%;object-fit: fill;"></div>
           </ion-slide-page>
           <ion-slide-page>
-            <div class="box 3"><img src="../img/overlay_454.png" style="width: 100%; height: auto;"></div>
+            <div class="box 4"><img src="../img/overlay_438.png" style="width: 100%; height: 100%;object-fit: fill;"></div>
           </ion-slide-page>
           <ion-slide-page>
-            <div class="box 4"><img src="../img/overlay_438.png" style="width: 100%; height: auto;"></div>
+            <div class="box 5"><img src="../img/overlay_987.png" style="width: 100%; height: 100%;object-fit: fill;"></div>
           </ion-slide-page>
           <ion-slide-page>
-            <div class="box 5"><img src="../img/overlay_987.png" style="width: 100%; height: auto;"></div>
-          </ion-slide-page>
-          <ion-slide-page>
-            <div class="box 6"><img src="../img/test.png"style="width: 100%; height: auto;" ></div>
+            <div class="box 6"><img src="../img/test.png"style="width: 100%; height: 100%;object-fit: fill;" ></div>
           </ion-slide-page>
         </ion-slides>
 
+        <img src="{{myImage}}">
         <!--     {{myText}}-->
       </ion-content>
 

@@ -179,6 +179,28 @@
         }
       }
 
+
+      .video-thumbnail {
+        position: relative;
+        display: inline-block;
+      }
+  /*    .video-thumbnail img {
+        width: 100%;
+        height: auto;
+      }*/
+      .video-thumbnail i {
+        position: absolute;
+        content: url('http://orig08.deviantart.net/2431/f/2011/237/2/1/honda_logo_256_png_by_mahesh69a-d47upai.png') !important;
+        top: calc(15px);
+        left: calc(15px);
+        width: 25%;
+        height: 25%;
+      }
+
+      .top-modal {
+        z-index: 1000;
+      }
+
     </style>
 
     <script src="js/app.js"></script>
@@ -228,7 +250,7 @@
               <i class="icon ion-happy-outline"></i>Customer Deliveries</ion-item>
 
 
-            <ion-item class="item-icon-left" id="menu-list-item23a" ng-show="true" ng-click="cameraStart()" menu-close="" data-componentid="list-item23">
+            <ion-item class="item-icon-left" id="menu-list-item23a" ng-show="true" ui-sref="camera" menu-close="" data-componentid="list-item23">
               <i class="icon ion-camera"></i>Camera</ion-item>
 
 
@@ -280,7 +302,7 @@
             <ion-item class="item-icon-left" id="menu-list-item19aa" ng-click="techTutor()" menu-close="" data-componentid="list-item19">
               <i class="icon ion-android-car"></i>Honda Tech Tutor</ion-item>
             <ion-item class="item-icon-left" id="menu-list-item19a" ng-click="mobileAssist()" menu-close="" data-componentid="list-item19">
-              <i class="icon ion-android-car"></i>Mobile Assistant </ion-item>
+              <i class="icon ion-android-car"></i>Honda Automobiels </ion-item>
             <ion-item class="item-icon-left" id="menu-list-item19sa" ng-click="hondaOwners()" menu-close="" data-componentid="list-item19">
               <i class="icon ion-android-car"></i>Owners.Honda.Com </ion-item>
             <ion-item class="item-icon-left" id="menu-list-item19ac" ng-click="hondaFrontline()" menu-close="" data-componentid="list-item19">
@@ -355,6 +377,61 @@
     </ion-modal-view>
   </script>
 
+  <script id="image-modal.html" type="text/ng-template">
+    <div class="modal image-modal transparent" ng-click="closeImageModal()">
+      <ion-pane class="transparent" ng-click="closeImageModal()">
+        <img ng-src="{{modalImage1}}" class="fullscreen-image" ng-click="closeImageModal()"/>
+      </ion-pane>
+    </div>
+  </script>
+
+ <!-- <script id="my-camera.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title">Camera</h1>
+        &lt;!&ndash;    <button class="button button-primary" ng-click="modal.hide()">Close</button>&ndash;&gt;
+        <button class="button icon ion-ios-close button-dark" ng-click="mycamera.hide()">Close</button>
+      </ion-header-bar>
+      <ion-content>
+        <h1 ng-if="myOrientation">Use landscape mode to take photos!</h1>
+      <div >
+
+      &lt;!&ndash;  <div> <canvas style="width: 150px;height: 25px;" id="myCanvas" ></canvas></div>
+&ndash;&gt;
+
+        <div class="row" >
+          <div class="col">VIN</div>
+          <div class="col">Customer & Car</div>
+        </div>
+        <div class="row">
+
+          <div class="col">
+            <img src="{{myImage}}" style="width: 100%;height: auto;" id="originalImage" ng-click="openImageModal(1)">
+
+          </div>
+          <div class="col"><img src="{{myImage1}}" style="width: 100%;height: auto;" id="originalImage1" ng-click="openImageModal(2)"></div>
+        </div>
+        <div class="row">
+          <div class="col"> <button class="button button-block button-positive" ng-click="takeVin()" ng-if="!myOrientation">
+            Photo VIN
+          </button></div>
+          <div class="col">   <button class="button button-block button-positive" ng-click="takeImage()" ng-if="!myOrientation">
+            Photo Customer & Car
+          </button></div>
+        </div>
+      </div>
+        <button class="button button-block button-positive" ng-click="saveImage()" ng-if="myImage1 && myImage">
+         Save & Open Deliveries
+        </button>
+
+        <canvas style="width: 100%;height: 25px;visibility: hidden" id="myCanvas" ></canvas>
+
+      </ion-content>
+    </ion-modal-view>
+  </script>
+-->
+
+
   <script id="my-models.html" type="text/ng-template">
     <ion-modal-view>
       <ion-header-bar>
@@ -412,19 +489,6 @@
     </ion-modal-view>
   </script>
 
-
-  <script id="camera-view.html" type="text/ng-template">
-    <ion-modal-view style="background-color: transparent">
-      <ion-header-bar>
-        <h1 class="title">camera</h1>
-        <!--    <button class="button button-primary" ng-click="modal.hide()">Close</button>-->
-        <button class="button icon ion-ios-close button-dark" ng-click="modal.hide()">Close</button>
-      </ion-header-bar>
-      <ion-content>
-
-      </ion-content>
-    </ion-modal-view>
-  </script>
 
 
 

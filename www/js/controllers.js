@@ -90,11 +90,11 @@ angular.module('app.controllers', [])
       //Todo Lease Modal
 
       $rootScope.leaseInfo = {
-        msrp: 24635,
-        sellPrice: 23065,
-        moneyFactor: 0.00080,
-        residual: 0.60,
-        downPayment: 2000,
+        msrp: 26885,
+        sellPrice: 23995,
+        moneyFactor: 0.000720,
+        residual: 0.56,
+        downPayment: 0,
         tradeIn: 0,
         payOff: 0,
         endBuyout: 0,
@@ -107,27 +107,174 @@ angular.module('app.controllers', [])
         taxRate: 0.073,
         docFee: 299,
         acqFee: 595,
-        grossCap: 0
+        grossCap: 0,
+        adjustedCap: 0,
+        upfrontFees: 551.75,
+        backEnd:0,
+        rentCharge: 0,
+        totalBase: 0,
+        monthlyTax: 0,
+        monthlyBase: 0,
+        templeasePayment: 0,
+        capCostReduction: 0,
+        tradeValue: 0
       };
 
-      $rootScope.calcLease = function () {
-        //Get residual
+      $rootScope.leaseCounter = 0;
 
+      $rootScope.calcLease = function () {
+
+        //reset Lease counter
+        $rootScope.leaseCounter = 0;
+
+        //clear backend to recalculate
+        $rootScope.leaseInfo.backEnd = 0;
+        $rootScope.leaseInfo.rentCharge = 0;
+        $rootScope.leaseInfo.upfrontFees = 551.75;
+
+        if($rootScope.leaseInfo.downPayment > 0){
+
+          var myTempCost = $rootScope.leaseInfo.downPayment * $rootScope.leaseInfo.taxRate;
+          myTempCost = (myTempCost + 551.75);
+          $rootScope.leaseInfo.capCostReduction = $rootScope.leaseInfo.downPayment - myTempCost;
+          $rootScope.leaseInfo.capCostReduction = $rootScope.leaseInfo.capCostReduction - $rootScope.leaseInfo.templeasePayment;
+          $rootScope.leaseInfo.upfrontFees = 0;
+        }else{
+          $rootScope.leaseInfo.capCostReduction = 0;
+        }
+
+        //Trade Value, can be negative number
+        $rootScope.leaseInfo.tradeValue = (parseFloat($rootScope.leaseInfo.payOff) - parseFloat($rootScope.leaseInfo.tradeIn));
+
+
+        //Get residual
         $rootScope.leaseInfo.endBuyout = ($rootScope.leaseInfo.msrp * $rootScope.leaseInfo.residual).toFixed(2);
 
-        $rootScope.leaseInfo.grossCap = $rootScope.leaseInfo.sellPrice + $rootScope.leaseInfo.acqFee + 10;
+        //Get Backend
+        if ($rootScope.checkboxModel.value1 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.extWarrany)
+        }
+        if ($rootScope.checkboxModel.value2 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.vechileMaint)
+        }
+        if ($rootScope.checkboxModel.value3 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.permaPlate)
+        }
+        if ($rootScope.checkboxModel.value4 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.titanium)
+        }
+        if ($rootScope.checkboxModel.value5 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.clearShield)
+        }
+        if ($rootScope.checkboxModel.value6 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.gapProtect)
+        }
+        if ($rootScope.checkboxModel.value7 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.tinting)
+        }
+        if($rootScope.checkboxModel.value8 == 1)
+        {  $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.accessories)
+        }
 
-        $rootScope.leaseInfo.netCap =  $rootScope.leaseInfo.grossCap - ( $rootScope.leaseInfo.downPayment - 1114) - ($rootScope.leaseInfo.tradeIn - $rootScope.leaseInfo.payOff) ;
 
-//          $rootScope.leaseInfo.netCap = ($rootScope.leaseInfo.sellPrice - ($rootScope.leaseInfo.downPayment) - ($rootScope.leaseInfo.tradeIn - $rootScope.leaseInfo.payOff)) + 885 ;
 
-        $rootScope.leaseInfo.depValue = ($rootScope.leaseInfo.netCap - $rootScope.leaseInfo.endBuyout) / $rootScope.leaseInfo.paymentNum;
+        $rootScope.leaseInfo.grossCap = parseFloat($rootScope.leaseInfo.sellPrice+$rootScope.leaseInfo.upfrontFees) + $rootScope.leaseInfo.backEnd + 10 + 595;
 
-        $rootScope.leaseInfo.myFinance = (parseInt($rootScope.leaseInfo.netCap) + parseInt($rootScope.leaseInfo.endBuyout)) * $rootScope.leaseInfo.moneyFactor;
+        $rootScope.leaseInfo.adjustedCap = ($rootScope.leaseInfo.grossCap - parseInt($rootScope.leaseInfo.capCostReduction)) + $rootScope.leaseInfo.tradeValue;
 
-        $rootScope.leaseInfo.salesTax = $rootScope.leaseInfo.depValue * $rootScope.leaseInfo.taxRate;
 
-        $rootScope.leaseInfo.leasePayment = ($rootScope.leaseInfo.myFinance + $rootScope.leaseInfo.depValue) + $rootScope.leaseInfo.salesTax;
+        $rootScope.leaseInfo.rentCharge = parseFloat(parseFloat($rootScope.leaseInfo.adjustedCap) + parseFloat($rootScope.leaseInfo.endBuyout)) * $rootScope.leaseInfo.moneyFactor;
+
+        $rootScope.leaseInfo.rentCharge = ($rootScope.leaseInfo.rentCharge*36);
+
+        $rootScope.leaseInfo.depValue = ($rootScope.leaseInfo.adjustedCap - $rootScope.leaseInfo.endBuyout);
+
+        $rootScope.leaseInfo.totalBase = $rootScope.leaseInfo.depValue + $rootScope.leaseInfo.rentCharge;
+
+        $rootScope.leaseInfo.monthlyBase = ($rootScope.leaseInfo.totalBase / 36);
+
+        $rootScope.leaseInfo.monthlyTax = ($rootScope.leaseInfo.totalBase / 36)*$rootScope.leaseInfo.taxRate;
+
+        $rootScope.leaseInfo.templeasePayment = $rootScope.leaseInfo.monthlyBase  + $rootScope.leaseInfo.monthlyTax;
+
+        $rootScope.calcLease2();
+      };
+
+
+      $rootScope.calcLease2 = function () {
+        //clear backend to recalculate
+        $rootScope.leaseCounter += 1;
+        $rootScope.leaseInfo.backEnd = 0;
+        $rootScope.leaseInfo.rentCharge = 0;
+        $rootScope.leaseInfo.upfrontFees = (551.75 + $rootScope.leaseInfo.templeasePayment);
+
+        if($rootScope.leaseInfo.downPayment > 0){
+
+          var myTempCost = $rootScope.leaseInfo.downPayment * $rootScope.leaseInfo.taxRate;
+          myTempCost = (myTempCost + 551.75);
+          $rootScope.leaseInfo.capCostReduction = $rootScope.leaseInfo.downPayment - myTempCost;
+          $rootScope.leaseInfo.capCostReduction = $rootScope.leaseInfo.capCostReduction - $rootScope.leaseInfo.templeasePayment;
+          $rootScope.leaseInfo.upfrontFees = 0;
+        }else{
+          $rootScope.leaseInfo.capCostReduction = 0;
+        }
+
+        //Trade Value, can be negative number
+        $rootScope.leaseInfo.tradeValue = (parseFloat($rootScope.leaseInfo.payOff) - parseFloat($rootScope.leaseInfo.tradeIn));
+
+        //Get residual
+        $rootScope.leaseInfo.endBuyout = ($rootScope.leaseInfo.msrp * $rootScope.leaseInfo.residual).toFixed(2);
+
+        //Get Backend
+        if ($rootScope.checkboxModel.value1 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.extWarrany)
+        }
+        if ($rootScope.checkboxModel.value2 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.vechileMaint)
+        }
+        if ($rootScope.checkboxModel.value3 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.permaPlate)
+        }
+        if ($rootScope.checkboxModel.value4 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.titanium)
+        }
+        if ($rootScope.checkboxModel.value5 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.clearShield)
+        }
+        if ($rootScope.checkboxModel.value6 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.gapProtect)
+        }
+        if ($rootScope.checkboxModel.value7 == 1) {
+          $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.tinting)
+        }
+        if($rootScope.checkboxModel.value8 == 1)
+        {  $rootScope.leaseInfo.backEnd = parseInt($rootScope.leaseInfo.backEnd + $rootScope.otdPrice.accessories)
+        }
+
+        $rootScope.leaseInfo.grossCap = parseFloat($rootScope.leaseInfo.sellPrice+$rootScope.leaseInfo.upfrontFees) + $rootScope.leaseInfo.backEnd + 10 + 595;
+
+        $rootScope.leaseInfo.adjustedCap = ($rootScope.leaseInfo.grossCap - parseInt($rootScope.leaseInfo.capCostReduction)) + $rootScope.leaseInfo.tradeValue;
+
+
+        $rootScope.leaseInfo.rentCharge = parseFloat(parseFloat($rootScope.leaseInfo.adjustedCap) + parseFloat($rootScope.leaseInfo.endBuyout)) * $rootScope.leaseInfo.moneyFactor;
+
+        $rootScope.leaseInfo.rentCharge = ($rootScope.leaseInfo.rentCharge*36);
+
+        $rootScope.leaseInfo.depValue = ($rootScope.leaseInfo.adjustedCap - $rootScope.leaseInfo.endBuyout);
+
+        $rootScope.leaseInfo.totalBase = $rootScope.leaseInfo.depValue + $rootScope.leaseInfo.rentCharge;
+
+        $rootScope.leaseInfo.monthlyBase = ($rootScope.leaseInfo.totalBase / 36);
+
+        $rootScope.leaseInfo.monthlyTax = ($rootScope.leaseInfo.totalBase / 36)*$rootScope.leaseInfo.taxRate;
+
+       if($rootScope.leaseCounter < 3) {
+         $rootScope.leaseInfo.templeasePayment = $rootScope.leaseInfo.monthlyBase + $rootScope.leaseInfo.monthlyTax;
+         $rootScope.calcLease2();
+       }else{
+         $rootScope.leaseInfo.leasePayment = $rootScope.leaseInfo.monthlyBase  + $rootScope.leaseInfo.monthlyTax;
+         $rootScope.leaseCounter = 0;
+       }
 
       };
 
@@ -239,10 +386,11 @@ angular.module('app.controllers', [])
 
     }])
 
-  .controller('menuCtrl', ['$scope', '$stateParams', '$cordovaInAppBrowser', '$rootScope', '$cordovaSms', '$cordovaGoogleAnalytics',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('menuCtrl', ['$scope', '$stateParams', '$cordovaInAppBrowser', '$rootScope', '$cordovaSms', '$cordovaGoogleAnalytics','$ionicPopup',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $cordovaInAppBrowser, $rootScope, $cordovaSms, $cordovaGoogleAnalytics) {
+    function ($scope, $stateParams, $cordovaInAppBrowser, $rootScope, $cordovaSms, $cordovaGoogleAnalytics, $ionicPopup) {
+
 
 
       $rootScope.openDeliveries = function () {
@@ -252,13 +400,109 @@ angular.module('app.controllers', [])
           clearcache: 'no',
           toolbar: 'yes'
         };
-        $cordovaInAppBrowser.open('http://www.customerdeliveri.es/salespeople/sign_in', '_blank', defaultOptions)
-          .then(function (event) {
-            // success
-          })
-          .catch(function (event) {
-            // error
+
+
+        var myUsername = localStorage.getItem('cdUsername');
+        var myPassword = localStorage.getItem('cdPassword');
+
+        if(myUsername != null && myPassword != null)
+        {
+
+
+          $rootScope.logins.cdUsername = localStorage.getItem('cdUsername');
+          $rootScope.logins.cdPassword = localStorage.getItem('cdPassword');
+          var ref = $cordovaInAppBrowser.open('http://www.customerdeliveri.es/salespeople/sign_in', '_blank', defaultOptions)
+            .then(function (event) {
+              // success
+              if(event.type == 'loadstop'){
+                $cordovaInAppBrowser.executeScript(
+                  {
+                    code: 'document.getElementById("salesperson_email").value = "'+$rootScope.logins.cdUsername+'";' +
+                    'document.getElementById("salesperson_password").value = "'+$rootScope.logins.cdPassword+'";' +
+                    'document.getElementById("new_salesperson").submit();'
+                  });
+              }
+            })
+            .catch(function (event) {
+              // error
+            });
+
+
+        }else{
+
+
+          var myPopup = $ionicPopup.show({
+            template: '<input type="text" ng-model="logins.cdUsername"><input type="password" ng-model="logins.cdPassword">',
+            title: 'Enter Username and Password',
+            subTitle: 'Please use normal things',
+            scope: $rootScope,
+            buttons: [
+              { text: 'Cancel' },
+              {
+                text: '<b>Save</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                  if (!$rootScope.logins.cdUsername || !$rootScope.logins.cdUsername) {
+                    //don't allow the user to close unless he enters wifi password
+                    e.preventDefault();
+                  } else {
+                    localStorage.setItem('cdUsername', $rootScope.logins.cdUsername);
+                    localStorage.setItem('cdPassword', $rootScope.logins.cdPassword);
+                    // $scope.data.logins;
+
+                    //return [myReturns.myreturnUsername, myReturns.myreturnPassword];
+                  }
+                }
+              }
+            ]
           });
+
+          myPopup.then(function(res) {
+            //Username and Password were entered
+            console.log('Tapped!', res);
+
+            if($rootScope.logins.cdUsername.length < 5 || $rootScope.logins.cdPassword.length < 5){return;}
+
+            var ref = $cordovaInAppBrowser.open('http://www.customerdeliveri.es/salespeople/sign_in', '_blank', defaultOptions)
+              .then(function (event) {
+                // success
+
+
+                if(event.type == 'loadstop'){
+                  $cordovaInAppBrowser.executeScript(
+                    {
+                      code: 'document.getElementById("salesperson_email").value = "'+$rootScope.logins.cdUsername+'";' +
+                      'document.getElementById("salesperson_password").value = "'+$rootScope.logins.cdPassword+'";' +
+                      'document.getElementById("new_salesperson").submit();'
+                    });
+
+                  setTimeout(function(){
+                    $cordovaInAppBrowser.executeScript(
+                      {
+                        code: 'document.getElementById("direct_upload_photo_url").value = "'+$rootScope.mySavedImage+'";'
+                      });
+                  }, 5000);
+
+
+                }
+
+
+
+              })
+              .catch(function (event) {
+                // error
+              });
+
+
+          });
+
+
+        }
+
+
+
+
+
       };
 
 
@@ -543,10 +787,10 @@ angular.module('app.controllers', [])
       $cordovaGoogleAnalytics.trackView('New Cars');
     }])
 
-  .controller('staffListingCtrl', ['$scope', '$stateParams', '$http', '$cordovaInAppBrowser', '$cordovaGoogleAnalytics',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+  .controller('staffListingCtrl', ['$scope', '$stateParams', '$http', '$cordovaInAppBrowser', '$cordovaGoogleAnalytics','$cordovaSms',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-    function ($scope, $stateParams, $http, $cordovaInAppBrowser, $cordovaGoogleAnalytics) {
+    function ($scope, $stateParams, $http, $cordovaInAppBrowser, $cordovaGoogleAnalytics,$cordovaSms) {
 
       $http.get('http://kengarff.cincyplanet.com/stafflisting.js')
         .then(function successCallback(response) {
@@ -580,7 +824,22 @@ angular.module('app.controllers', [])
           .catch(function (event) {
             // error
           });
+      };
+      $scope.textStaff = function (mobile) {
+        var options = {
+          replaceLineBreaks: false, // true to replace \n by a new line, false by default
+          android: {
+            //intent: 'INTENT'  // send SMS with the native android SMS messaging
+            intent: '' // send SMS without open any other app
+          }
+        };
+        $cordovaSms
+          .send(mobile, '', options)
+          .then(function() {
+            // Success! SMS was sent
+          }, function(error) {
+            // An error occurred
+          });
       }
-
 
     }]);

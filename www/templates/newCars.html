@@ -55,8 +55,9 @@
 
 
       <div class="button-bar">
-      <button class="button button-calm button-block" ng-click="searchNew(car.VIN)">View On WebSite</button>
+      <button class="button button-calm button-block" ng-click="searchNew(car.VIN)">See Online</button>
         <button class="button button-calm button-block" ng-click="getPricing(car.Vehicle, car.Price,car['Stock #'], 'new')" ng-if="car.Price > 1">Get Pricing</button>
+        <button class="button button-calm button-block" ng-click="deliverCar(car.VIN)">Deliver</button>
       </div>
     </div>
 

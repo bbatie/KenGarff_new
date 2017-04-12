@@ -367,11 +367,17 @@
         Tax Rate
       </label>
   <div ng-show="true">Residual: {{leaseInfo.endBuyout | currency}} </div>
-      <div ng-show="true">Net Cap: {{leaseInfo.netCap | currency}} </div>
       <div ng-show="true">Gross Cap: {{leaseInfo.grossCap | currency}} </div>
+      <div ng-show="true">Backend: {{leaseInfo.backend | currency}} </div>
+      <div ng-show="true">Up Front Fees: {{leaseInfo.upfrontFees | currency}} </div>
+      <div ng-show="true">Cap Cost Reduction: {{leaseInfo.capCostReduction | currency}} </div>
+      <div ng-show="true">Trade Value: {{leaseInfo.tradeValue | currency}} </div>
+      <div ng-show="true">Adjusted Cap: {{leaseInfo.adjustedCap | currency}} </div>
+      <div ng-show="true">Rent Charge: {{leaseInfo.rentCharge | currency}} </div>
       <div ng-show="true">Dep Value: {{leaseInfo.depValue | currency}} </div>
-      <div ng-show="true">Finance: {{leaseInfo.myFinance | currency}}</div>
-      <div ng-show="true">Sales Tax: {{leaseInfo.salesTax | currency}} </div>
+      <div ng-show="true">Total ase Price: {{leaseInfo.totalBase | currency}}</div>
+      <div ng-show="true">Monthly Base: {{leaseInfo.monthlyBase | currency}}</div>
+      <div ng-show="true">Monthly Tax: {{leaseInfo.monthlyTax | currency}} </div>
       <div> Payment: {{leaseInfo.leasePayment | currency}}</div>
       <div class="row">
         <div class="col col-33">Residual</div> <div class="col">{{leaseInfo.endBuyout | currency}}</div>

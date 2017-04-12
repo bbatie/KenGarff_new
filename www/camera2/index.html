@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html ng-app="ionicApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/ezar-ionic.css" rel="stylesheet">
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="../cordova.js"></script>
+
+    <!-- your app's js -->
+    <script>
+
+      // Ionic Starter App
+
+      // angular.module is a global place for creating, registering and retrieving Angular modules
+      // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+      // the 2nd parameter is an array of 'requires'
+      angular.module('ionicApp', ['ionic'])
+
+        .run(function($ionicPlatform) {
+          $ionicPlatform.ready(function() {
+            if(window.cordova &&
+              window.cordova.plugins && //wayne: added due to https://github.com/driftyco/ng-cordova/issues/1028
+              window.cordova.plugins.Keyboard) {
+              // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+              // for form inputs)
+              cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+
+              // Don't remove this line unless you know what you are doing. It stops the viewport
+              // from snapping when text inputs are focused. Ionic handles this internally for
+              // a much nicer keyboard experience.
+              cordova.plugins.Keyboard.disableScroll(true);
+            }
+            if(window.StatusBar) {
+              StatusBar.styleDefault();
+
+            }
+            if (window.ezar) {
+
+              ezar.initializeVideoOverlay(
+                function() {
+                  ezar.getBackCamera().start();
+                },
+                function(err) {
+                  alert('unable to init ezar: ' + err);
+                });
+            }
+          });
+        })
+
+        .controller("AppController", function($scope) {
+
+
+          $scope.snapshotTimestamp = Date.now();
+          $scope.reverseCameraTimestamp = Date.now();
+          $scope.myOrientation = true;
+
+          $scope.snapshot = function() {
+            StatusBar.hide();
+            //ignore ghost clicks, wait 1.5 sec between invocations
+            if (Date.now() - $scope.snapshotTimestamp < 1500) return;
+            $scope.snapshotTimestamp = Date.now();
+
+            //get snapshot & revcamera buttons to hide/show
+            var snapshotBtn = document.getElementById("snapshot");
+            var revCameraBtn = document.getElementById("revcamera");
+            var exitBtn = document.getElementById("exit");
+            var footerBtn = document.getElementById("myFooter");
+
+            var inclWebView = true;    // include/exclude webView content on top of cameraView
+            var inclCameraBtns = true; // show/hide snapshot & revcamera btns
+
+            if (inclWebView && !inclCameraBtns) {
+              revCameraBtn.classList.add("hide");
+              snapshotBtn.classList.add("hide");
+            }
+
+            var link = document.getElementById('snapshot');
+            link.style.visibility = 'hidden';
+            link = document.getElementById('revcamera');
+            link.style.visibility = 'hidden';
+            link = document.getElementById('exit');
+            link.style.visibility = 'hidden';
+            link = document.getElementById('myFooter');
+            link.style.visibility = 'hidden';
+
+            setTimeout(function() {
+              ezar.snapshot(
+                function() {
+                  //perform screen capture
+                  //show snapshot button
+                  //window.open('../index.html','_self');
+                  StatusBar.show();
+                  var link = document.getElementById('snapshot');
+                  link.style.visibility = 'visible';
+                  link = document.getElementById('revcamera');
+                  link.style.visibility = 'visible';
+                  link = document.getElementById('exit');
+                  link.style.visibility = 'visible';
+                  link = document.getElementById('myFooter');
+                  link.style.visibility = 'visible';
+                },null,
+                {encodingType: ezar.ImageEncoding.PNG,
+                  includeWebView: inclWebView,
+                  saveToPhotoAlbum: true});
+            },200);
+          };
+
+          $scope.reverseCamera = function() {
+            //ignore ghost clicks, wait 1.5 sec between invocations
+            if (Date.now() - $scope.reverseCameraTimestamp < 1500) return;
+            $scope.reverseCameraTimestamp = Date.now();
+
+            var camera = ezar.getActiveCamera();
+            if (!camera) {
+              return; //no camera running; do nothing
+            }
+
+            var newCamera = camera;
+            if (camera.getPosition() == "BACK" && ezar.hasFrontCamera()) {
+              newCamera = ezar.getFrontCamera();
+            } else  if (camera.getPosition() == "FRONT" && ezar.hasBackCamera()) {
+              newCamera = ezar.getBackCamera();
+            }
+
+            if (newCamera) {
+              newCamera.start();
+            }
+          }
+
+          $scope.options = "{pagination: false}";
+
+          $scope.exitPhoto = function () {
+             window.open('../index.html','_self');
+          };
+
+          $scope.myText = 'Call Now! 801-781-4700';
+
+
+          function readDeviceOrientation() {
+
+            if (Math.abs(window.orientation) == 90) {
+              // Landscape
+              $scope.$apply(function(){ $scope.myOrientation = false;});
+
+            } else {
+              // Portrait
+              $scope.$apply(function(){ $scope.myOrientation = true;});
+
+            }
+          }
+
+          window.onorientationchange = readDeviceOrientation;
+         // window.addEventListener('orientationchange', $scope.readDeviceOrientation);
+
+
+        });
+
+
+
+
+    </script>
+  </head>
+  <body ng-app="starter" ng-controller="AppController">
+
+    <ion-pane>
+<!--     <ion-header-bar class="bar-dark ezar">
+      </ion-header-bar>-->
+<!--
+
+      <div id="title" class="title">   <img src="../img/kengarffhondaogden.png" style="width: 50%; height: auto;"> </div>
+-->
+
+
+      <ion-content scroll="false">
+        <div ng-if="myOrientation"><br><br><br><br><img src="https://brownsenglish.edu.au/images/browns/dates-and-fees/rotate-to-landscape.jpg" style="width: 100%; height: 100%;top: 100px;">
+
+        </div>
+
+        <ion-slides  options="options" slider="data.slider" [pager]="false" ng-if="!myOrientation">
+          <ion-slide-page>
+            <div class="box blue"><img src="../img/kengarffhondaogden.png" style="width: 50%; height: auto;"></div>
+          </ion-slide-page>
+          <ion-slide-page>
+            <div class="box yellow"><img src="../img/GarffEase_HeaderRed.png" style="width: 100%; height: auto;"></div>
+          </ion-slide-page>
+          <ion-slide-page>
+            <div class="box pink"><img src="../img/kengarff_main.png" style="width: 100%; height: auto;"></div>
+          </ion-slide-page>
+
+          <ion-slide-page>
+            <div class="box 1"><img src="http://cliparting.com/wp-content/uploads/2016/07/Congratulations-clipart-images-clipart-clipartix.png" style="width: 100%; height: auto;"></div>
+          </ion-slide-page>
+          <ion-slide-page>
+            <div class="box 1a"><img src="../img/Honda.png" style="width: 100%; height: auto;object-fit: fill;"></div>
+          </ion-slide-page>
+          <ion-slide-page>
+            <div class="box 2"><img src="../img/overlay_234.png" style="width: 100%; height: 100%;object-fit: fill;"></div>
+          </ion-slide-page>
+          <ion-slide-page>
+            <div class="box 4"><img src="../img/overlay_438.png" style="width: 100%; height: 100%;object-fit: fill;"></div>
+          </ion-slide-page>
+          <ion-slide-page>
+            <div class="box 5"><img src="../img/overlay_987.png" style="width: 100%; height: 100%;object-fit: fill;"></div>
+          </ion-slide-page>
+          <ion-slide-page>
+            <div class="box 6"><img src="../img/test.png"style="width: 100%; height: 100%;object-fit: fill;" ></div>
+          </ion-slide-page>
+        </ion-slides>
+
+        <!--     {{myText}}-->
+      </ion-content>
+
+      <div id="myFooter" class="bar bar-dark ezar ezar-footer"></div>
+
+      <a id="exit" class="ezar-button" ng-click="exitPhoto()"></a>
+      <a id="snapshot" class="ezar-button" ng-click="snapshot()"  ng-if="!myOrientation"></a>
+      <a id="revcamera" class="ezar-button" ng-click="reverseCamera()"  ng-if="!myOrientation"></a>
+
+    </ion-pane>
+
+  </body>
+</html>

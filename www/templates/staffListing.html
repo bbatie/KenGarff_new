@@ -10,6 +10,7 @@
   </div>
 
   <ion-content padding="true" class="has-header has-subheader">
+
     <div class="list card" id="staffListing-card24" ng-repeat="staff in staffList | filter:search.string1">
       <ion-item class="item-avatar" id="staffListing-list-item27">
         <img src="{{staff.image}}">
@@ -21,9 +22,15 @@
         <div id="staffListing-button-bar1" class="button-bar">
           <button id="staffListing-button21" class="button button-positive  button-block" ng-click="callStaff( staff.phone )">Main</button>
           <button id="staffListing-button22" class="button button-calm  button-block" ng-click="callStaff( staff.mobile )" ng-if="staff.mobile.length > 5">Mobile</button>
-          <button id="staffListing-button23" class="button button-balanced  button-block" ng-click="emailStaff( staff.email )" ng-if="staff.email.length > 5">Email</button>
+        </div>
+        <div id="staffListing-button-bar2" class="button-bar">
+          <button id="staffListing-button231" class="button button-balanced  button-block" ng-click="emailStaff( staff.email )" ng-if="staff.email.length > 5">Email</button>
+          <button id="staffListing-button221" class="button button-royal  button-block" ng-click="textStaff( staff.mobile )" ng-if="staff.mobile.length > 5">Text</button>
         </div>
       </div>
     </div>
+
+
+
   </ion-content>
 </ion-view>

@@ -1,8 +1,48 @@
-<ion-view title="Schedules" id="page4">
+<ion-view title="CameraPage" id="page4">
+<!--
+
+  <ion-nav-buttons side="right" class="has-header">
+    <button class="button button-icon icon ion-close-circled"  ng-click="clearImages()"></button>
+  </ion-nav-buttons>
+-->
+
+  <ion-content padding="true" class="has-header">
 
 
-  <ion-content padding="true" class="has-header has-subheader">
-camera file
+    <h1 ng-if="myOrientation">Use landscape mode to take photos!</h1>
+    <div >
+
+      <!--  <div> <canvas style="width: 150px;height: 25px;" id="myCanvas" ></canvas></div>
+-->
+
+      <div class="row" >
+        <div class="col">VIN</div>
+        <div class="col">Customer & Car</div>
+      </div>
+      <div class="row">
+
+        <div class="col">
+          <img src="{{myImage}}" style="width: 100%;height: auto;" id="originalImage" ng-click="openImageModal(1)">
+
+        </div>
+        <div class="col"><img src="{{myImage1}}" style="width: 100%;height: auto;" id="originalImage1" ng-click="openImageModal(2)"></div>
+      </div>
+      <div class="row">
+        <div class="col"> <button class="button button-block button-positive" ng-click="takeVin()" ng-if="!myOrientation">
+          Photo VIN
+        </button></div>
+        <div class="col">   <button class="button button-block button-positive" ng-click="takeImage()" ng-if="!myOrientation">
+          Photo Customer & Car
+        </button></div>
+      </div>
+    </div>
+    <button class="button button-block button-positive" ng-click="saveImage()">
+      Save & Open Deliveries
+    </button>
+
+    <canvas style="width: 100%;height: 25px;visibility: hidden" id="myCanvas" ></canvas>
+
+
 
   </ion-content>
 </ion-view>
