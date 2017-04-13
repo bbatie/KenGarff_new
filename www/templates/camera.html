@@ -1,19 +1,13 @@
 <ion-view title="CameraPage" id="page4">
-<!--
-
-  <ion-nav-buttons side="right" class="has-header">
-    <button class="button button-icon icon ion-close-circled"  ng-click="clearImages()"></button>
+  <ion-nav-buttons side="left">
+    <!-- Toggle left side menu -->
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
--->
-
   <ion-content padding="true" class="has-header">
 
 
-    <h1 ng-if="myOrientation">Use landscape mode to take photos!</h1>
+    <h2 ng-if="myOrientation">Use landscape mode to take photos!</h2>
     <div >
-
-      <!--  <div> <canvas style="width: 150px;height: 25px;" id="myCanvas" ></canvas></div>
--->
 
       <div class="row" >
         <div class="col">VIN</div>
@@ -28,11 +22,11 @@
         <div class="col"><img src="{{myImage1}}" style="width: 100%;height: auto;" id="originalImage1" ng-click="openImageModal(2)"></div>
       </div>
       <div class="row">
-        <div class="col"> <button class="button button-block button-positive" ng-click="takeVin()" ng-if="!myOrientation">
-          Photo VIN
+        <div class="col"> <button class="button button-block button-positive" ng-click="takeVin()">
+          VIN
         </button></div>
-        <div class="col">   <button class="button button-block button-positive" ng-click="takeImage()" ng-if="!myOrientation">
-          Photo Customer & Car
+        <div class="col">   <button class="button button-block button-positive" ng-click="takeImage()">
+          Customer & Car
         </button></div>
       </div>
     </div>

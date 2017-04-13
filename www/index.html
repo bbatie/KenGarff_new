@@ -13,6 +13,8 @@
     <title></title>
 
 
+    <!-- compiled css output -->
+    <link href="css/ionic.app.css" rel="stylesheet">
 
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
@@ -201,6 +203,16 @@
         z-index: 1000;
       }
 
+
+      .img {
+        opacity: 0;
+        animation: myshow 1s ;
+      }
+
+      @keyframes myshow {
+        100% {opacity: 1;}
+      }
+
     </style>
 
     <script src="js/app.js"></script>
@@ -221,20 +233,20 @@
 
 
   </head>
-  <body ng-app="app" animation="slide-left-right-ios7">
+  <body ng-app="app" animation="slide-left-right-ios7" class="deepblue-theme">
   <div>
   <ion-side-menus enable-menu-with-back-views="false" data-componentid="side-menu21">
     <ion-side-menu-content>
-      <ion-nav-bar class="bar-stable">
+      <ion-nav-bar class="bar-deepblue">
         <ion-nav-back-button></ion-nav-back-button>
         <ion-nav-buttons side="left">
-          <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+          <button class="button button-icon button-deepblue-white ion-navicon" menu-toggle="left"></button>
         </ion-nav-buttons>
       </ion-nav-bar>
       <ion-nav-view></ion-nav-view>
     </ion-side-menu-content>
     <ion-side-menu side="left" id="side-menu21">
-      <ion-header-bar class="bar-stable">
+      <ion-header-bar class="bar-deepblue-reverse bar-deepblue-borderbottom my-header-border">
         <div class="title">Menu</div>
       </ion-header-bar>
       <ion-content ng-controller="menuCtrl" padding="false" class="side-menu-left has-header ">
@@ -385,51 +397,48 @@
     </div>
   </script>
 
- <!-- <script id="my-camera.html" type="text/ng-template">
-    <ion-modal-view>
-      <ion-header-bar>
+ <script id="my-camera.html" type="text/ng-template">
+    <ion-modal-view class="deepblue-theme">
+      <ion-header-bar class="bar-deepblue-reverse bar-deepblue-borderbottom my-header-border">
         <h1 class="title">Camera</h1>
-        &lt;!&ndash;    <button class="button button-primary" ng-click="modal.hide()">Close</button>&ndash;&gt;
         <button class="button icon ion-ios-close button-dark" ng-click="mycamera.hide()">Close</button>
       </ion-header-bar>
       <ion-content>
-        <h1 ng-if="myOrientation">Use landscape mode to take photos!</h1>
-      <div >
 
-      &lt;!&ndash;  <div> <canvas style="width: 150px;height: 25px;" id="myCanvas" ></canvas></div>
-&ndash;&gt;
+    <h2 ng-if="myOrientation" style="color:black;">Use landscape mode to take photos!</h2>
+    <div >
 
-        <div class="row" >
-          <div class="col">VIN</div>
-          <div class="col">Customer & Car</div>
-        </div>
-        <div class="row">
-
-          <div class="col">
-            <img src="{{myImage}}" style="width: 100%;height: auto;" id="originalImage" ng-click="openImageModal(1)">
-
-          </div>
-          <div class="col"><img src="{{myImage1}}" style="width: 100%;height: auto;" id="originalImage1" ng-click="openImageModal(2)"></div>
-        </div>
-        <div class="row">
-          <div class="col"> <button class="button button-block button-positive" ng-click="takeVin()" ng-if="!myOrientation">
-            Photo VIN
-          </button></div>
-          <div class="col">   <button class="button button-block button-positive" ng-click="takeImage()" ng-if="!myOrientation">
-            Photo Customer & Car
-          </button></div>
-        </div>
+      <div class="row" >
+        <div class="col">VIN</div>
+        <div class="col">Customer & Car</div>
       </div>
-        <button class="button button-block button-positive" ng-click="saveImage()" ng-if="myImage1 && myImage">
-         Save & Open Deliveries
-        </button>
+      <div class="row">
 
-        <canvas style="width: 100%;height: 25px;visibility: hidden" id="myCanvas" ></canvas>
+        <div class="col">
+          <img src="{{myImage}}" style="width: 100%;height: auto;" id="originalImage" ng-click="openImageModal(1)">
+
+        </div>
+        <div class="col"><img src="{{myImage1}}" style="width: 100%;height: auto;" id="originalImage1" ng-click="openImageModal(2)"></div>
+      </div>
+      <div class="row">
+        <div class="col"> <button class="button button-block button-positive" ng-click="takeVin()">
+          VIN
+        </button></div>
+        <div class="col">   <button class="button button-block button-positive" ng-click="takeImage()">
+          Customer & Car
+        </button></div>
+      </div>
+    </div>
+    <button class="button button-block button-positive" ng-click="saveImage()">
+      Save & Open Deliveries
+    </button>
+
+    <canvas style="width: 100%;height: 25px;visibility: hidden" id="myCanvas" ></canvas>
+
 
       </ion-content>
     </ion-modal-view>
   </script>
--->
 
 
   <script id="my-models.html" type="text/ng-template">

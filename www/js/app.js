@@ -946,8 +946,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
       $rootScope.deleteChecked = function () {
 
         var confirmPopup = $ionicPopup.confirm({
-          title: 'Remove Completed?',
-          template: 'Remove all completed items? This cannot be undone!'
+          title: '<p style="color: black">Remove Completed?</p>',
+          template: '<p style="color: black">Remove all completed items? This cannot be undone!</p>'
         });
 
         confirmPopup.then(function (res) {
@@ -1558,8 +1558,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
       $rootScope.showButton = false;
 
       $rootScope.deliverCar = function (vin) {
-        //$rootScope.mycamera.show();
-        $state.go('camera');
+        $rootScope.mycamera.show();
+        //$state.go('camera');
         setTimeout(function () {
           var canvas = document.getElementById("myCanvas");
           var ctx = canvas.getContext("2d");
@@ -1637,7 +1637,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
 
         $rootScope.openDeliveries();
         //Clear Images after saving.
-        clearImages();
+        $rootScope.clearImages();
       };
 
 
