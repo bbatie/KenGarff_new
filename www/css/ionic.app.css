@@ -2774,25 +2774,31 @@ ion-infinite-scroll {
  * --------------------------------------------------
  */
 p {
+  color: #040000;
   margin: 0 0 10px; }
 
 small {
+  color: #040000;
   font-size: 85%; }
 
 cite {
+  color: #040000;
   font-style: normal; }
 
 .text-left {
+  color: #040000;
   text-align: left; }
 
 .text-right {
+  color: #040000;
   text-align: right; }
 
 .text-center {
+  color: #040000;
   text-align: center; }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  color: #000;
+  color: #040000;
   font-weight: 500;
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
   line-height: 1.2; }
@@ -2949,7 +2955,7 @@ a.subdued {
 
 .action-sheet-title {
   padding: 16px;
-  color: #8f8f8f;
+  color: #4e49ff;
   text-align: center;
   font-size: 13px; }
 
@@ -4547,17 +4553,19 @@ ion-tabs.tabs-color-active-dark .tab-item {
 
 .popup-head {
   padding: 15px 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #bc8d08;
   text-align: center; }
 
 .popup-title {
   margin: 0;
+  color: black;
   padding: 0;
   font-size: 15px; }
 
 .popup-sub-title {
   margin: 5px 0 0 0;
   padding: 0;
+  color: black;
   font-weight: normal;
   font-size: 11px; }
 
@@ -4648,7 +4656,7 @@ ion-tabs.tabs-color-active-dark .tab-item {
     text-overflow: ellipsis;
     font-size: 15px; }
     .loading-container .loading h1, .loading-container .loading h2, .loading-container .loading h3, .loading-container .loading h4, .loading-container .loading h5, .loading-container .loading h6 {
-      color: #fff; }
+      color: #040000; }
 
 /**
  * Items

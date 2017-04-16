@@ -381,8 +381,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
 
         var myPopup = $ionicPopup.show({
           template: '<input type="number" ng-model="tmvData.miles" placeholder="Miles"><div class="list">',
-          title: 'Mileage for Vehicle',
-          subTitle: 'Assumes Clean Condition Vehicle',
+          title: '<p style="color: black">Mileage for Vehicle</p>',
+          subTitle: '<p style="color: black">Assumes Clean Condition Vehicle</p>',
           scope: $rootScope,
           buttons: [
             {text: 'Cancel'},
@@ -406,8 +406,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
                         // alert( "Estimated Trade Value: $" + parseInt(myPrice * .85)  );
 
                         var alertPopup = $ionicPopup.alert({
-                          title: 'Estimated Trade In Value:',
-                          template: '$ ' + parseInt(myPrice * .85) + '<br>Estimation Only, not an offer!'
+                          title: '<p style="color: black">Estimated Trade In Value:</p>',
+                          template: '<p style="color: black">$ ' + parseInt(myPrice * .85) + '<br>Estimation Only, not an offer!</p>'
                         });
 
 
@@ -747,8 +747,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
         // An elaborate, custom popup
         var myPopup = $ionicPopup.show({
           template: '<input type="email" ng-model="data.email"><input type="password" ng-model="data.password">',
-          title: 'Enter Signin Email and Password',
-          subTitle: 'Please use normal things',
+          title: '<p style="color: black">Enter Sign in Email and Password</p>',
+          subTitle: '<p style="color: black">Please use normal things</p>',
           scope: $rootScope,
           buttons: [
             {text: 'Cancel'},
@@ -897,8 +897,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
         // An elaborate, custom popup
         var myPopup = $ionicPopup.show({
           template: '<input type="text" ng-model="data.stockNumber" placeholder="Stock Number"><input type="text" ng-model="data.note" placeholder="What does it need?">',
-          title: 'Enter Item Details',
-          subTitle: 'Enter Vehicle details.',
+          title: '<p style="color: black">Enter Item Details</p>',
+          subTitle: '<p style="color: black">Enter Vehicle details.</p>',
           scope: $rootScope,
           buttons: [
             {text: 'Cancel'},
@@ -1048,8 +1048,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
       $rootScope.deleteVin = function (myVin) {
         console.log("Items: " + $rootScope.vinList.length);
         var confirmPopup = $ionicPopup.confirm({
-          title: 'Delete VIN: ' + myVin + '? ',
-          template: 'Are your sure you want to delete this VIN?'
+          title: '<p style="color: black">Delete VIN: ' + myVin + '? </p>',
+          template: '<p style="color: black">Are your sure you want to delete this VIN?</p>'
         });
 
         confirmPopup.then(function (res) {
@@ -1123,8 +1123,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
         if (vin.length != 17) {
           $ionicLoading.hide();
           $ionicPopup.alert({
-            title: 'VIN Length Error',
-            template: "The VIN must be 17 characters in length! This one is: " + vin.length
+            title: '<p style="color: black">VIN Length Error</p>',
+            template: '<p style="color: black">The VIN must be 17 characters in length! This one is: ' + vin.length + '</p>'
           });
           $cordovaGoogleAnalytics.trackEvent('VIN Error', 'Not 17');
           return;
@@ -1141,6 +1141,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
             $ionicLoading.hide();
             $rootScope.currentVehicle = response.data;
 
+            console.log(JSON.stringify(response.data, null, '   '));
+            
             /*         var myMessage = 'Year: ' + response.data.years[0].year  + '<br>' +
              'Make: ' + response.data.make.name  + '<br>' +
              'Model: ' + response.data.model.name + '<br>' +
@@ -1247,7 +1249,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
                {text: 'Get VehicleHistory.com'}
                ]*/,
               /*  destructiveText: 'Cancel',*/
-              titleText: '<h3>' + response.data.years[0].year + ' ' + response.data.make.name + ' ' + response.data.model.name + '</h3><br>' + response.data.years[0].styles[0].name + '<br><b>' + myStockNumber + '</b>',
+              titleText: '<h3 style="color:black;">' + response.data.years[0].year + ' ' + response.data.make.name + ' ' + response.data.model.name + '</h3><br>' + response.data.years[0].styles[0].name + '<br><b>' + myStockNumber + '</b>',
               cancelText: 'Cancel',
               cancel: function () {
                 // add cancel code..
@@ -1283,8 +1285,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
             // $scope.error2 = JSON.stringify(error);
             $ionicLoading.hide();
             var alertPopup = $ionicPopup.alert({
-              title: 'ERROR!',
-              template: "There was an error reading the barcode or with the VIN info decoding."
+              title: '<p style="color: black">ERROR!</p>',
+              template: '<p style="color: black">There was an error reading the barcode or with the VIN info decoding.</p>'
             });
 
             alertPopup.then(function (res) {
@@ -1367,16 +1369,16 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
                       });
                   } else {  //what to do on invalid qr url... maybe nothing
                     $ionicPopup.alert({
-                      title: 'ERROR!',
-                      template: "Not a valid website!"
+                      title: '<p style="color: black">ERROR!</p>',
+                      template: '<p style="color: black">Not a valid website!</p>'
                     });
                   }
                   break;
                 case 'UPC_A':
                   //alert('code is UPCA');
                   $ionicPopup.alert({
-                    title: 'Code Type!',
-                    template: "Code is a UPCA, not valid VIN!"
+                    title: '<p style="color: black">Code Type!</p>',
+                    template: '<p style="color: black">Code is a UPCA, not valid VIN!</p>'
                   });
                   break;
                 case 'PDF_417':
@@ -1432,9 +1434,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
                   $cordovaGoogleAnalytics.trackEvent('DL Scanned', 'Drivers license scanned');
                   //alert($rootScope.myName.firstName + ' ' + $rootScope.myName.middleName + ' ' + $rootScope.myName.lastName);
                   $ionicPopup.alert({
-                    title: 'Info on Drivers License',
-                    template: $rootScope.myName.firstName + ' ' + $rootScope.myName.middleName + ' ' + $rootScope.myName.lastName + '<br>' +
-                    $rootScope.myName.address + ' <br>' + $rootScope.myName.city + ' ' + $rootScope.myName.state + ' ' + $rootScope.myName.zip + '<br>ID Number: ' + $rootScope.myName.idnumber
+                    title: '<p style="color: black">Info on Drivers License</p>',
+                    template: '<p style="color: black">' + $rootScope.myName.firstName + ' ' + $rootScope.myName.middleName + ' ' + $rootScope.myName.lastName + '<br>' +
+                    $rootScope.myName.address + ' <br>' + $rootScope.myName.city + ' ' + $rootScope.myName.state + ' ' + $rootScope.myName.zip + '<br>ID Number: ' + $rootScope.myName.idnumber + '</p>'
                   });
                   break;
                 case 'CODE_39': //VIN is a code 39
@@ -1460,8 +1462,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
                   //  alert(barcodeData.format)
                   $cordovaGoogleAnalytics.trackEvent('Scan Code', 'Unsupported ' + barcodeData.format);
                   $ionicPopup.alert({
-                    title: 'Unsupported Barcode',
-                    template: "The barcode you are scanning is unsupported at this time."
+                    title: '<p style="color: black">Unsupported Barcode</p>',
+                    template: '<p style="color: black">The barcode you are scanning is unsupported at this time.</p>'
                   });
               }
               /**
@@ -1794,8 +1796,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
       $rootScope.clearStorageCD = function () {
 
         var confirmPopup = $ionicPopup.confirm({
-          title: 'Remove All Usernames and Passwords',
-          template: 'Are you sure you want to do this? It cannot be undone!'
+          title: '<p style="color: black">Remove All Usernames and Passwords</p>',
+          template: '<p style="color: black">Are you sure you want to do this? It cannot be undone!</p>'
         });
 
         confirmPopup.then(function (res) {
@@ -1824,9 +1826,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
         });
 
         $ionicPopup.alert({
-          title: 'About:',
-          template: 'Copyright Cincyplanet 2016-2017. <br>All rights reserved. App version is: ' + $rootScope.versionNumber +
-          '<button class="button button-block button-assertive" ng-click="clearStorageCD()">Clear Customer Deliveries Usernames and Password</button>'
+          title: '<p style="color: black">About:</p>',
+          template: '<p style="color: black">Copyright Cincyplanet 2016-2017. <br>All rights reserved. App version is: ' + $rootScope.versionNumber +
+          '<button class="button button-block button-assertive" ng-click="clearStorageCD()">Clear Customer Deliveries Usernames and Password</button></p>'
         });
 
         /* $ionicLoading.show({
